@@ -6,7 +6,7 @@ function TeamsWindow(title) {
 	
 	// create table view data object
 	var data = [
-		{title:'5th Grade Basketball, Girls', hasChild:true, test:'ui/common/controls/slider'}
+		{title:'5th Grade Basketball, Girls', hasChild:true, test:'schedule/schedule'}
 	];
 	
 	// create table view
