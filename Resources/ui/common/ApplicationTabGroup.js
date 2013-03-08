@@ -4,7 +4,7 @@ function ApplicationTabGroup() {
 	//create module instance
 	var self = Ti.UI.createTabGroup(),
 		BaseUIWindow = require('ui/common/BaseUIWindow'),
-		ControlsWindow = require('ui/common/ControlsWindow'),
+		TeamsWindow = require('ui/common/TeamsWindow'),
 		PhoneWindow = require('ui/common/PhoneWindow'),
 		PlatformWindow = require('ui/common/PlatformWindow'),
 		MashupsWindow = require('ui/common/MashupsWindow');
@@ -12,7 +12,7 @@ function ApplicationTabGroup() {
 	
 	//create app tabs
 	var baseUIWin = new BaseUIWindow(L('base_ui_title')),
-		controlsWin = new ControlsWindow(L('controls_win_title')),
+		teamsWin = new TeamsWindow(L('teams_win_title')),
 		phoneWin = new PhoneWindow(L('phone_win_title')),
 		platformWin = new PlatformWindow(L('platform_win_title')),
 		mashupsWin = new MashupsWindow(L('mashups_win_title'));
@@ -27,11 +27,11 @@ function ApplicationTabGroup() {
 	self.addTab(baseUITab);
 	
 	var controlsTab = Ti.UI.createTab({
-		title: L('controls_win_title'),
+		title: L('teams_win_title'),
 		icon: '/images/tabs/KS_nav_views.png',
-		window: controlsWin
+		window: teamsWin
 	});
-	controlsWin.containingTab = controlsTab;
+	teamsWin.containingTab = controlsTab;
 	self.addTab(controlsTab);
 	
 	var phoneTab = Ti.UI.createTab({
