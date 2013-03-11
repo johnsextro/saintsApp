@@ -4,20 +4,40 @@ function schedule(_args) {
 		backgroundColor:'white'
 	});
 	
-	var data = [
-		{title:'3/13/2013 vs. J & A at 1:00pm', hasChild:false, test:''},
-		{title:'3/20/2013 vs. SESR at 3:00pm', hasChild:false, test:''},
-		{title:'3/27/2013 vs. Westgate at 2:00pm', hasChild:false, test:''}
-	];
+	var url = "https://x8-avian-bricolage-r.appspot.com/schedule/ScheduleService.schedule";
+	var data, json;
 	
-	// create table view
-	for (var i = 0; i < data.length; i++ ) { data[i].color = '#000'; data[i].font = {fontWeight:'bold'} };
-	var tableview = Titanium.UI.createTableView({
-		data:data
+	var xhr = Ti.Network.createHTTPClient({
+    onload: function() {
+		// Ti.API.debug(this.responseText);
+	
+		json = JSON.parse(this.responseText);
+		Ti.API.info("Response: " + this.responseText);
+		
+		data = [
+			{title: json.game_date + ' vs. ' + json.opponent + ' at ' + json.location, hasChild:false, test:''}
+		];
+		// create table view
+		for (var i = 0; i < data.length; i++ ) { data[i].color = '#000'; data[i].font = {fontWeight:'bold'} };
+		var tableview = Titanium.UI.createTableView({
+			data:data
+		});
+	
+		// add table view to the window
+		self.add(tableview);
+    },
+	onerror: function(e) {
+		Ti.API.error("STATUS: " + this.status);
+		Ti.API.error("TEXT:   " + this.responseText);
+		Ti.API.error("ERROR:  " + e.error);
+		alert('There was an error retrieving the remote data. Try again.');
+	    },
+	    timeout:5000
 	});
-
-	// add table view to the window
-	self.add(tableview);
+	var params = '{"team_id": "1234"}';
+	xhr.open("POST", url);
+	xhr.setRequestHeader('Content-Type','application/json')
+	xhr.send(params);
 	return self;
 }
 
