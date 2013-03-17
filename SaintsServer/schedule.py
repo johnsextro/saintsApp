@@ -1,6 +1,7 @@
 from protorpc import messages
 from protorpc import remote
 from protorpc.wsgi import service
+from team import Team
 
 package = 'SaintsSchedule'
 
@@ -10,16 +11,18 @@ class ScheduleRequest(messages.Message):
 
 # Create the response string
 class ScheduleResponse(messages.Message):
-    game_date = messages.StringField(1, required=True)
-    opponent = messages.StringField(2, required=True)
-    location = messages.StringField(3, required=True)
+    schedule = messages.StringField(1, required=True)
 
 # Create the RPC service to exchange messages
 class ScheduleService(remote.Service):
 
     @remote.method(ScheduleRequest, ScheduleResponse)
     def schedule(self, request):
-        return ScheduleResponse(game_date="4/1/2013", opponent="St. J & A", location="St. Joe")
+		# t = Team(teamId="1234", coach = "Edmunds", school = "St Joes",
+		# 	grade = 5, year = 2013, 
+		# 	schedule = "{game_date='4/1/2013', opponent='St. J & A', location='St. Joes'}")
+		# t.put()
+		return ScheduleResponse(schedule="[{game_date:'4/1/2013', opponent:'St. J & A', location:'St. Joes'}]")
 
-# Map the RPC service and path (/hello)
+# Map the RPC service and path (/schedule)
 app = service.service_mappings([('/schedule.*', ScheduleService)])
