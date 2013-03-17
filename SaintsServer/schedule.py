@@ -22,7 +22,7 @@ class ScheduleService(remote.Service):
 		# 	grade = 5, year = 2013, 
 		# 	schedule = "{game_date='4/1/2013', opponent='St. J & A', location='St. Joes'}")
 		# t.put()
-		return ScheduleResponse(schedule="[{game_date:'4/1/2013', opponent:'St. J & A', location:'St. Joes'}]")
+		return ScheduleResponse(schedule='{"games": [{"game_date": "4/1/2013", "opponent": "St. J & A", "location": "St. Joes"}]}')
 
 # Map the RPC service and path (/schedule)
 app = service.service_mappings([('/schedule.*', ScheduleService)])
