@@ -16,6 +16,8 @@ class Team(db.Model):
 		games = ""
 		q = db.Query(Team)
 		q = Team.all()
-		for team in q.run():
+		q.filter("teamId =", str(teamId))
+		if q.count() > 0:
+			team = q.get()
 			games = team.schedule
 		return games

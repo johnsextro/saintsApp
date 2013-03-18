@@ -24,7 +24,7 @@ class ScheduleService(remote.Service):
 		# 	schedule = "{game_date='4/1/2013', opponent='St. J & A', location='St. Joes'}")
 		# t.put()
 		t = Team()
-		games = t.getGames(1234)
+		games = t.getGames(request.team_id)
 		logging.info("games = " + games)
 		return ScheduleResponse(schedule=games)
 
