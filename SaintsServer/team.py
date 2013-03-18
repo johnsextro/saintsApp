@@ -12,12 +12,10 @@ class Team(db.Model):
     schedule = db.StringProperty()
 
     def getGames(self, teamId):
-		logging.info("Entered getGames")
 		team = Team()
 		games = ""
 		q = db.Query(Team)
 		q = Team.all()
 		for team in q.run():
-			logging.info("Schedule = " + team.schedule)
 			games = team.schedule
 		return games

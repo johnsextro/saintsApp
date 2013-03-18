@@ -10,13 +10,8 @@ function schedule(_args) {
 	
 	var xhr = Ti.Network.createHTTPClient({
     onload: function() {
-		// Ti.API.debug(this.responseText);
-		// data = '{"games": [{"game_date": "4/21/2013", "opponent": "St. J & A", "location": "St. Joes"}]}';
-		Ti.API.info(this.responseText);
 		json = JSON.parse(this.responseText);
-		Ti.API.info("Schedule: " + json.schedule);
 		json = JSON.parse(json.schedule);
-		Ti.API.info("Length = " + json.games.length)
 		game = json.games[0];
 		Ti.API.info("Response: " + data);
 		
