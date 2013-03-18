@@ -1,4 +1,5 @@
 from google.appengine.ext import db
+import logging
 
 package = 'SaintsSchedule'
 
@@ -11,10 +12,12 @@ class Team(db.Model):
     schedule = db.StringProperty()
 
     def getGames(self, teamId):
-    	g = ""
-    	games = Team.all()
-    	games.filter("teamId = ", teamId)
-    	for r in games.run():
-	    	g = r.schedule	
-	    
-	    return g
+		logging.info("Entered getGames")
+		team = Team()
+		games = ""
+		q = db.Query(Team)
+		q = Team.all()
+		for team in q.run():
+			logging.info("Schedule = " + team.schedule)
+			games = team.schedule
+		return games

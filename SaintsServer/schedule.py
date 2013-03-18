@@ -2,6 +2,7 @@ from protorpc import messages
 from protorpc import remote
 from protorpc.wsgi import service
 from team import Team
+import logging
 
 package = 'SaintsSchedule'
 
@@ -23,7 +24,9 @@ class ScheduleService(remote.Service):
 		# 	schedule = "{game_date='4/1/2013', opponent='St. J & A', location='St. Joes'}")
 		# t.put()
 		t = Team()
-		return ScheduleResponse(schedule=t.getGames(1234))
+		games = t.getGames(1234)
+		logging.info("games = " + games)
+		return ScheduleResponse(schedule=games)
 
 # Map the RPC service and path (/schedule)
 app = service.service_mappings([('/schedule.*', ScheduleService)])
