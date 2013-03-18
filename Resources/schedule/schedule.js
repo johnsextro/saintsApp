@@ -6,7 +6,8 @@ function schedule(_args) {
 	
 	// var url = "https://x8-avian-bricolage-r.appspot.com/schedule/ScheduleService.schedule";
 	var url = "http://localhost:8080/schedule/ScheduleService.schedule";
-	var data, json, schedule, fighters, games;
+	var data = []
+	var json, schedule, fighters, games;
 	
 	var xhr = Ti.Network.createHTTPClient({
     onload: function() {
@@ -14,15 +15,12 @@ function schedule(_args) {
 		if (json.schedule != "") {
 			json = JSON.parse(json.schedule);
 			//replace this with a for loop to load all the games rather than just one.
-			game = json.games[0];
-					
-			data = [
-				{title: game.game_date + ' vs. ' + game.opponent + ' at ' + game.location, hasChild:false, test:''}
-			];	
+			for (i = 0; i < json.games.length; i++) {
+				game = json.games[i];
+				data.push({title: game.game_date + ' vs. ' + game.opponent + ' at ' + game.location, hasChild:false, test:''});
+			}	
 		} else {
-			data = [
-				{title: "No Games Found", hasChild:false, test:''}
-			];
+			data.push({title: "No Games Found", hasChild:false, test:''});
 		}
 		
 		// create table view
@@ -42,7 +40,7 @@ function schedule(_args) {
 	    },
 	    timeout:5000
 	});
-	var params = '{"team_id": "12345"}';
+	var params = '{"team_id": "1234"}';
 	xhr.open("POST", url);
 	xhr.setRequestHeader('Content-Type','application/json')
 	xhr.send(params);
