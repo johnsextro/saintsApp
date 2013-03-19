@@ -3,7 +3,7 @@ function schedule(_args) {
 		title:_args.title,
 		backgroundColor:'white'
 	});
-	
+	// {"games": [{"game_date": "4/1/2013", "opponent": "St. J & A", "location": "St. Joes"}, {"game_date": "4/8/2013", "opponent": "Westgate", "location": "St. Joes"}, {"game_date": "4/14/2013", "opponent": "ICD", "location": "ICD"}, {"game_date": "4/28/2013", "opponent": "Holy Spirit", "location": "Holy Spirit"}]}
 	// var url = "https://x8-avian-bricolage-r.appspot.com/schedule/ScheduleService.schedule";
 	var url = "http://localhost:8080/schedule/ScheduleService.schedule";
 	var data = []
