@@ -9,8 +9,11 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
 
-- url: .*
+- url: /schedule
   script: schedule.app
+
+- url: /crontask/scrape
+  script: load.app
 
 libraries:
 - name: webapp2
