@@ -1,0 +1,4 @@
+cron:
+- description: test
+  url: /crontask/scrape
+  schedule: every 1 minutes
