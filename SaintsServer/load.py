@@ -29,7 +29,7 @@ class Load(webapp2.RequestHandler):
 		gamelist = []
 		for rowindex in range(len(games)):
 			if len(games[rowindex])>3 and games[rowindex][1].text is not None and games[rowindex][2].text is not None:
-				game = '{"game_date": "%s", "time": "%s", "home": "%s", "away": "%s", location": "%s"}' % (games[rowindex][1].text, games[rowindex][2].text, games[rowindex][4].text, games[rowindex][5].text, games[rowindex][3][0].text)
+				game = '{"game_date": "%s", "time": "%s", "home": "%s", "away": "%s", "location": "%s"}' % (games[rowindex][1].text, games[rowindex][2].text, games[rowindex][4].text, games[rowindex][5].text, games[rowindex][3][0].text)
 				# {"games": [{"game_date": "4/1/2013", "time": "1:00 PM", "home": "St. J & A", "away": "ICD", location": "St. Joes"}]}
 				gamelist.append(game)
 				logging.info("Date: " + games[rowindex][1].text + " Time: " + games[rowindex][2].text

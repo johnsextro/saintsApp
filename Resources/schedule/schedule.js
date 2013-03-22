@@ -15,9 +15,11 @@ function schedule(_args) {
 		if (json.schedule != "") {
 			json = JSON.parse(json.schedule);
 			//replace this with a for loop to load all the games rather than just one.
+			//{"games": [{"game_date": "Sat, 01/05/2013", "time": "1:00 PM", "home": "St_Cletus-Schultehenrich (O)", "away": "SJC-Edmunds (C)", "location": "St_Cletus"}]}
 			for (i = 0; i < json.games.length; i++) {
 				game = json.games[i];
-				data.push({title: game.game_date + ' vs. ' + game.opponent + ' at ' + game.location, hasChild:false, test:''});
+				data.push({title: game.game_date + ' ' + game.time + ' at ' + game.location, hasChild:false, test:''});
+				// ' ' + game.home + ' vs. ' + game.away +
 			}	
 		} else {
 			data.push({title: "No Games Found", hasChild:false, test:''});
@@ -40,7 +42,7 @@ function schedule(_args) {
 	    },
 	    timeout:5000
 	});
-	var params = '{"team_id": "1234"}';
+	var params = '{"team_id": "1235"}';
 	xhr.open("POST", url);
 	xhr.setRequestHeader('Content-Type','application/json')
 	xhr.send(params);
