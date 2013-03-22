@@ -7,35 +7,44 @@ import team
 
 class Load(webapp2.RequestHandler):
 	def get(self):
-		logging.info("Test cron job")
-		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?leagueid=1&season=32&conference=779&division=797&team=5766&pfv=y&sort=date&month=999&year=999", deadline=15)
+		teamIds = self.get_team_ids()
+		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%i&pfv=y&sort=date&month=999&year=999"
+		for team_id in teamIds:
+			team_url = stcharlesurl % team_id
+			self.fetch_team_schedule(team_url, team_id)
+
+
+	def fetch_team_schedule(self, team_url, team_id):
+		url = urlfetch.fetch(url=team_url, deadline=15)
 		if url.status_code == 200:
 			tree = etree.HTML(url.content)
 			elements = tree.xpath('//table[@class="list"]//tr')
-			self.saveTeamGames(elements)
-			
+			self.save_team_games(elements, team_id)
 
-	def saveTeamGames(self, games):
+
+	def get_team_ids(self):
+		return [5766]
+
+
+	def save_team_games(self, games, team_id):
+		# todo: Need to account for teams that already exist in the database
 		t = team.Team()
-		t.teamId = '1235'
+		t.teamId = str(team_id)
 		t.coach = 'Edmunds'
 		t.school = 'SJC'
 		t.year = 2013
 		t.grade = 5
-		t.schedule = self.jsonifyGames(games)
+		t.schedule = self.jsonify_games(games)
 		t.put()
 
-	def jsonifyGames(self, games):
+
+	def jsonify_games(self, games):
 		gamelist = []
 		for rowindex in range(len(games)):
 			if len(games[rowindex])>3 and games[rowindex][1].text is not None and games[rowindex][2].text is not None:
 				game = '{"game_date": "%s", "time": "%s", "home": "%s", "away": "%s", "location": "%s"}' % (games[rowindex][1].text, games[rowindex][2].text, games[rowindex][4].text, games[rowindex][5].text, games[rowindex][3][0].text)
 				# {"games": [{"game_date": "4/1/2013", "time": "1:00 PM", "home": "St. J & A", "away": "ICD", location": "St. Joes"}]}
 				gamelist.append(game)
-				logging.info("Date: " + games[rowindex][1].text + " Time: " + games[rowindex][2].text
-					+ " Location: " + games[rowindex][3][0].text + 
-					" Home: " + games[rowindex][4].text + 
-					" Visitor: " + games[rowindex][5].text)
 		return '{"games": [%s]}' % ", ".join(gamelist)
 
 app = webapp2.WSGIApplication([('/crontask/scrape', Load)],debug=True)
