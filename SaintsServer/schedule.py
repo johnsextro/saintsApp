@@ -19,10 +19,6 @@ class ScheduleService(remote.Service):
 
     @remote.method(ScheduleRequest, ScheduleResponse)
     def schedule(self, request):
-		# t = Team(teamId="1234", coach = "Edmunds", school = "St Joes",
-		# 	grade = 5, year = 2013, 
-		# 	schedule = "{game_date='4/1/2013', opponent='St. J & A', location='St. Joes'}")
-		# t.put()
 		t = Team()
 		games = t.getGames(request.team_id)
 		logging.info("games = " + games)
