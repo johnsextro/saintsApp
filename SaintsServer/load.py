@@ -28,7 +28,7 @@ class Load(webapp2.RequestHandler):
 
 	def save_team_games(self, games, team_id):
 		# todo: Need to account for teams that already exist in the database
-		t = team.Team()
+		t = team.Team(key_name=str(team_id))
 		t.teamId = str(team_id)
 		t.coach = 'Edmunds'
 		t.school = 'SJC'
