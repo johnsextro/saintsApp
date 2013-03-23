@@ -40,9 +40,11 @@ class Load(webapp2.RequestHandler):
 		t = team.Team(key_name=str(team_id))
 		t.teamId = str(team_id)
 		t.coach = coach
-		t.school = 'SJC'
+		endIndex = 1
+		if (coach.index("-") > 1):
+			endIndex = coach.index("-")
+		t.school = coach[1:endIndex]
 		t.year = 2013
-		t.grade = 5
 		t.schedule = self.jsonify_games(games)
 		t.put()
 
