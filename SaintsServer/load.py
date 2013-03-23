@@ -8,9 +8,9 @@ import team
 class Load(webapp2.RequestHandler):
 	def get(self):
 		teamIds = self.get_team_ids()
-		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%i&pfv=y&sort=date&month=999&year=999"
+		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999"
 		for team_id in teamIds:
-			team_url = stcharlesurl % team_id
+			team_url = stcharlesurl % team_id[1]
 			self.fetch_team_schedule(team_url, team_id)
 
 
@@ -19,18 +19,27 @@ class Load(webapp2.RequestHandler):
 		if url.status_code == 200:
 			tree = etree.HTML(url.content)
 			elements = tree.xpath('//table[@class="list"]//tr')
-			self.save_team_games(elements, team_id)
+			self.save_team_games(elements, team_id[1], team_id[0])
 
 
 	def get_team_ids(self):
-		return [5766]
+		teams = []
+		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?team=0", deadline=15)
+		if url.status_code == 200:
+			tree = etree.HTML(url.content)
+			elements = tree.xpath('//td[@class="smalltext"][7]/select[@class="smalltext"]//option')
+			for team_name in elements:
+				attribs = team_name.attrib
+				value = attribs["value"]
+				teams.append([team_name.text.strip(),value[value.index("&team=")+6:len(value)]])
+		return teams
 
 
-	def save_team_games(self, games, team_id):
+	def save_team_games(self, games, team_id, coach):
 		# todo: Need to account for teams that already exist in the database
 		t = team.Team(key_name=str(team_id))
 		t.teamId = str(team_id)
-		t.coach = 'Edmunds'
+		t.coach = coach
 		t.school = 'SJC'
 		t.year = 2013
 		t.grade = 5
