@@ -8,13 +8,14 @@
         <target device="blackberry">false</target>
     </deployment-targets>
     <sdk-version>3.0.2.GA</sdk-version>
-    <id>com.appcelerator.kitchensink</id>
+    <id>com.johnsextro.com</id>
     <name>KitchenSink</name>
-    <version>3.0.2.GA</version>
-    <publisher>appcelerator</publisher>
-    <url>http://appcelerator.com</url>
-    <description>not specified</description>
-    <copyright>2012 by appcelerator</copyright>
+    <version>0.2</version>
+    <publisher>John Sextro</publisher>
+    <url>http://www.johnsextro.com</url>
+    <description>none
+</description>
+    <copyright>None</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
