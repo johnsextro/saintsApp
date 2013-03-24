@@ -3,12 +3,14 @@ function TeamsWindow(title) {
 		title:title,
 		backgroundColor:'white'
 	});
-	
+	var teams = [['5766', 'SJC-Edmunds'], ['5767', 'Test Team']];
 	// create table view data object
-	var data = [
-		{title:'5th Grade Basketball, Girls', hasChild:true, test:'schedule/schedule'}
-	];
-	
+	var data = [];
+	for (var teamIndex = 0; teamIndex < teams.length; teamIndex++) {
+		data.push({title: teams[teamIndex][1], value: teams[teamIndex][0], hasChild:true, test:'schedule/schedule'});
+		// data.push({title:'abc', value:'1234', hasChild:true, test:'schedule/schedule'});
+	};
+		
 	// create table view
 	for (var i = 0; i < data.length; i++ ) { data[i].color = '#000'; data[i].font = {fontWeight:'bold'} };
 	var tableview = Titanium.UI.createTableView({
@@ -21,6 +23,7 @@ function TeamsWindow(title) {
 			var ExampleWindow = require(e.rowData.test),
 				win = new ExampleWindow({
 					title:e.rowData.title,
+					team_id: e.rowData.value,
 					containingTab:self.containingTab,
 					tabGroup:self.tabGroup
 				});
