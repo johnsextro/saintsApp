@@ -3,7 +3,9 @@ function TeamsWindow(title) {
 		title:title,
 		backgroundColor:'white'
 	});
-	var teams = [['5766', 'SJC-Edmunds'], ['5767', 'Test Team']];
+	Ti.App.Properties.setList('Teams', [['5766', 'SJC-Edmunds'], ['5767', 'Test Team']]);
+	var teams = Ti.App.Properties.getList('Teams'); 
+	
 	// create table view data object
 	var data = [];
 	for (var teamIndex = 0; teamIndex < teams.length; teamIndex++) {
@@ -91,17 +93,26 @@ function AddTeam() {
 	});
 	
 	var label1 = Ti.UI.createLabel({
-	  color: '#900',
-	  font: { fontSize:48 },
-	  shadowColor: '#aaa',
-	  shadowOffset: {x:5, y:5},
-	  text: 'A simple label',
-	  textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-	  top: 30,
+	  color: 'black',
+	  text: 'Choose a Team to Add',
+	  font:{fontSize:14},
+	  top: 10,
 	  width: 'auto', height: 'auto'
 	});
+	
+	var pckrdata = [];
+	pckrdata[0]=Ti.UI.createPickerRow({title:'SJC-Edmunds',custom_item:'b'});
+	pckrdata[1]=Ti.UI.createPickerRow({title:'SJC-Sextro',custom_item:'s'});
+	pckrdata[2]=Ti.UI.createPickerRow({title:'SJC-Hall',custom_item:'m'});
+	pckrdata[3]=Ti.UI.createPickerRow({title:'SJC-Haefner',custom_item:'g'});
+	var pckrTeams = Ti.UI.createPicker();
+	pckrTeams.add(pckrdata); 
+	pckrTeams.selectionIndicator = true;
 		
 	self.add(label1);
+	self.add(pckrTeams);
+	pckrTeams.setSelectedRow(0,1,true);
+	
 	// var params = '{"team_id": "5766"}';
 	// xhr.open("POST", url);
 	// xhr.setRequestHeader('Content-Type','application/json')
