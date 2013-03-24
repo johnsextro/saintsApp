@@ -31,6 +31,9 @@ function TeamsWindow(title) {
 	// add table view to the window
 	self.add(tableview);
 	
+	var btnAddTeam = Titanium.UI.createButton({title:'Add'});
+	self.rightNavButton = btnAddTeam;	
+		
 	return self;
 };
 
