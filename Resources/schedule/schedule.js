@@ -52,7 +52,7 @@ function schedule(_args) {
 	});
 	
 	
-	var params = '{"team_id": "5766"}';
+	var params = '{"team_id": "' + _args.team_id + '"}';
 	xhr.open("POST", url);
 	xhr.setRequestHeader('Content-Type','application/json')
 	xhr.send(params);
