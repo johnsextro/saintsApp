@@ -3,19 +3,23 @@ import webapp2
 from google.appengine.api import urlfetch
 from lxml import etree
 import team
-
+import time
 
 class Load(webapp2.RequestHandler):
 	def get(self):
+		start_time = time.time()
+		logging.info("Beginning data load")
 		teamIds = self.get_team_ids()
 		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999"
 		for team_id in teamIds:
 			team_url = stcharlesurl % team_id[1]
 			self.fetch_team_schedule(team_url, team_id)
+		logging.info("Finished loading the schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
+
 
 
 	def fetch_team_schedule(self, team_url, team_id):
-		url = urlfetch.fetch(url=team_url, deadline=15)
+		url = urlfetch.fetch(url=team_url, deadline=99)
 		if url.status_code == 200:
 			tree = etree.HTML(url.content)
 			elements = tree.xpath('//table[@class="list"]//tr')
@@ -24,14 +28,14 @@ class Load(webapp2.RequestHandler):
 
 	def get_team_ids(self):
 		teams = []
-		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?team=0", deadline=15)
+		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?team=0", deadline=99)
 		if url.status_code == 200:
 			tree = etree.HTML(url.content)
 			elements = tree.xpath('//td[@class="smalltext"][7]/select[@class="smalltext"]//option')
 			for team_name in elements:
 				attribs = team_name.attrib
 				value = attribs["value"]
-				teams.append([team_name.text.strip(),value[value.index("&team=")+6:len(value)]])
+				teams.append([team_name.text.strip(),value[value.find("&team=")+6:]])
 		return teams
 
 
@@ -40,9 +44,11 @@ class Load(webapp2.RequestHandler):
 		t = team.Team(key_name=str(team_id))
 		t.teamId = str(team_id)
 		t.coach = coach
-		t.school = 'SJC'
+		endIndex = 1
+		if (coach.find("-") > 1):
+			endIndex = coach.find("-")
+			t.school = coach[:endIndex]
 		t.year = 2013
-		t.grade = 5
 		t.schedule = self.jsonify_games(games)
 		t.put()
 
