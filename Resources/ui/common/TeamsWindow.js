@@ -41,8 +41,9 @@ function TeamsWindow(title) {
 		win1 = AddTeam();
 		win1.open();
 	});
+	
 	self.rightNavButton = btnAddTeam;	
-		
+
 	return self;
 };
 

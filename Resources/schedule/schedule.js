@@ -3,6 +3,15 @@ function schedule(_args) {
 		title:_args.title,
 		backgroundColor:'white'
 	});
+	
+	var actInd = Ti.UI.createActivityIndicator({
+		width:50,
+		height:50,
+		message: 'loading...',
+		color: 'FF0000'
+	});
+	self.add(actInd);
+	
 	// {"games": [{"game_date": "4/1/2013", "opponent": "St. J & A", "location": "St. Joes"}, {"game_date": "4/8/2013", "opponent": "Westgate", "location": "St. Joes"}, {"game_date": "4/14/2013", "opponent": "ICD", "location": "ICD"}, {"game_date": "4/28/2013", "opponent": "Holy Spirit", "location": "Holy Spirit"}]}
 	// var url = "https://x8-avian-bricolage-r.appspot.com/schedule/ScheduleService.schedule";
 	var url = "http://localhost:8080/schedule/ScheduleService.schedule";
@@ -40,7 +49,7 @@ function schedule(_args) {
 	
 		// add table view to the window
 		self.add(tableview);
-		// spinner.hide();
+		actInd.hide();
     },
 	onerror: function(e) {
 		Ti.API.error("STATUS: " + this.status);
@@ -51,7 +60,9 @@ function schedule(_args) {
 	    timeout:5000
 	});
 	
-	
+
+	actInd.show();
+		
 	var params = '{"team_id": "' + _args.team_id + '"}';
 	xhr.open("POST", url);
 	xhr.setRequestHeader('Content-Type','application/json')
