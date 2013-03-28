@@ -10,7 +10,10 @@ handlers:
   upload: favicon\.ico
 
 - url: /schedule/.*
-  script: schedule.app
+  script: schedule_service.app
+
+- url: /coach/.*
+  script: coach_service.app
 
 - url: /crontask/scrape
   script: load.app
