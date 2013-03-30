@@ -6,7 +6,7 @@ function AddTeamWindow() {
 	
 	TeamsWindow = require('ui/common/TeamsWindow');
 	
-	var url = "http://localhost:8080/coach/CoachService.coach";
+	var url = "http://x8-avian-bricolage-r.appspot.com/coach/CoachService.coach";
 	var data = [];
 	var json;
 	var btnAddTeam = Titanium.UI.createButton({
