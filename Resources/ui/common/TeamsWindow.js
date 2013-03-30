@@ -39,8 +39,8 @@ function TeamsWindow(title) {
 	
 	var btnAddTeam = Titanium.UI.createButton({title:'Add'});
 	btnAddTeam.addEventListener('click', function(e) {
-		win1 = new AddTeamWindow();
-		win1.open();
+		winAddTeam = new AddTeamWindow();
+		winAddTeam.open();
 	});
 	
 	self.rightNavButton = btnAddTeam;	

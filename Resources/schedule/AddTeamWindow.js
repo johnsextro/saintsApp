@@ -3,7 +3,9 @@ function AddTeamWindow() {
 		title:'Add Team',
 		backgroundColor:'black'
 	});
-
+	
+	TeamsWindow = require('ui/common/TeamsWindow');
+	
 	var url = "http://localhost:8080/coach/CoachService.coach";
 	var data = [];
 	var json;
@@ -12,6 +14,11 @@ function AddTeamWindow() {
 		height:40,
 		width:200
 	});
+	
+	btnAddTeam.addEventListener('click', function(e) {
+		self.close();
+	});
+	
 	
 	var xhr = Ti.Network.createHTTPClient({
     onload: function() {
