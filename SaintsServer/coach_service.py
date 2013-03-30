@@ -24,10 +24,9 @@ class CoachService(remote.Service):
 
 	@remote.method(CoachRequest, Coaches)
 	def coach(self, request):
-		logging.info("Entering service method")
 		t = Team()
 		coaches = []
-		for team in t.getCoaches():
+		for team in t.getCoaches(request.school):
 			coach = Coach(team_id=team.teamId, name=team.coach, school=team.school)
 			coaches.append(coach)
 		return Coaches(coaches=coaches)

@@ -14,3 +14,9 @@ indexes:
   properties:
   - name: school
   - name: coach
+
+- kind: Team
+  properties:
+  - name: school=
+  - name: school
+  - name: coach

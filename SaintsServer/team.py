@@ -26,11 +26,12 @@ class Team(db.Model):
 		return games
 
 
-	def getCoaches(self):
-		logging.info("entering model method")
+	def getCoaches(self, school=None):
 		team = Team()
 		q = db.Query(Team, projection=('teamId', 'school', 'coach'))
 		q = Team.all()
+		if school is not None:
+			q.filter("school =", school)
 		q.order("school")
 		q.order("coach")
 		return q.run()

@@ -4,7 +4,6 @@ function TeamsWindow(title) {
 		backgroundColor:'white'
 	});
 	AddTeamWindow = require('schedule/AddTeamWindow');
-	Ti.App.Properties.setList('Teams', [['5766', 'SJC-Edmunds'], ['5767', 'Test Team']]);
 	var teams = Ti.App.Properties.getList('Teams'); 
 	
 	// create table view data object
