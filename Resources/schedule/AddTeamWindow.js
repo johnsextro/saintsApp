@@ -12,7 +12,12 @@ function AddTeamWindow() {
 	var btnAddTeam = Titanium.UI.createButton({
 		title:'Add Team',
 		height:40,
-		width:200
+		width:100
+	});
+	var btnCancel = Titanium.UI.createButton({
+		title:'Cancel',
+		height:40,
+		width:100
 	});
 	
 	var pckrTeams = Ti.UI.createPicker();
@@ -22,9 +27,16 @@ function AddTeamWindow() {
 		var selected = pckrTeams.getSelectedRow(row);
 		Ti.API.info(selected.title);
 		Ti.API.info(selected.value);
-		var savedTeams = Ti.App.Properties.getList('Teams');
+		var savedTeams = [];
+		if (Ti.App.Properties.getList('Teams') != null) {
+			savedTeams = Ti.App.Properties.getList('Teams');
+		}
 		savedTeams.push([selected.value, selected.title]);
 		Ti.App.Properties.setList('Teams', savedTeams);
+		self.close();
+	});
+	
+	btnCancel.addEventListener('click', function(e) {
 		self.close();
 	});
 	
@@ -55,9 +67,13 @@ function AddTeamWindow() {
 		pckrTeams.selectionIndicator = true;
 		self.add(label1);
 		self.add(pckrTeams);
-		pckrTeams.setSelectedRow(0,1,true);
+		pckrTeams.setSelectedRow(0,0,true);
 		btnAddTeam.setTop(400);
-		self.add(btnAddTeam);			
+		btnAddTeam.setLeft(20);
+		btnCancel.setTop(400);
+		btnCancel.setLeft(140);
+		self.add(btnAddTeam);
+		self.add(btnCancel)			
     },
 	onerror: function(e) {
 		Ti.API.error("STATUS: " + this.status);

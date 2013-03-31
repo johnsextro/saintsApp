@@ -17,7 +17,10 @@ function TeamsWindow(title) {
 	self.rightNavButton = btnAddTeam;	
 	
 	self.addEventListener('focus', function(e) {
-		var teams = Ti.App.Properties.getList('Teams'); 
+		var teams = [];
+		if (Ti.App.Properties.getList('Teams') != null) {
+			teams = Ti.App.Properties.getList('Teams');
+		}
 			// create table view data object
 		var data = [];
 		for (var teamIndex = 0; teamIndex < teams.length; teamIndex++) {
@@ -29,10 +32,6 @@ function TeamsWindow(title) {
 		for (var i = 0; i < data.length; i++ ) { data[i].color = '#000'; data[i].font = {fontWeight:'bold'} };
 		tableview.setData(data);
 	});
-	
-	
-	
-	
 	
 	
 	// create table view event listener
@@ -47,6 +46,17 @@ function TeamsWindow(title) {
 				});
 			self.containingTab.open(win,{animated:true});
 		}
+	});
+	
+	tableview.addEventListener('swipe', function(e) {
+		e.source.setEditable(true);
+	});
+	
+	tableview.addEventListener('delete', function(e) {
+		Ti.API.info("row with team_id: " + e.row.value);
+		var props = Ti.App.Properties.getList('Teams');
+		props.splice(e.index, 1);
+		Ti.App.Properties.setList('Teams', props);
 	});
 	
 	return self;
