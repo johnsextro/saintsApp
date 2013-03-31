@@ -3,28 +3,10 @@ var messageWin;
 function ApplicationTabGroup() {
 	//create module instance
 	var self = Ti.UI.createTabGroup(),
-		BaseUIWindow = require('ui/common/BaseUIWindow'),
-		TeamsWindow = require('ui/common/TeamsWindow'),
-		PhoneWindow = require('ui/common/PhoneWindow'),
-		PlatformWindow = require('ui/common/PlatformWindow'),
-		MashupsWindow = require('ui/common/MashupsWindow');
-		//MessageWindow = require('ui/common/MessageWindow');
+		TeamsWindow = require('ui/common/TeamsWindow');
 	
 	//create app tabs
-	var baseUIWin = new BaseUIWindow(L('base_ui_title')),
-		teamsWin = new TeamsWindow(L('teams_win_title')),
-		phoneWin = new PhoneWindow(L('phone_win_title')),
-		platformWin = new PlatformWindow(L('platform_win_title')),
-		mashupsWin = new MashupsWindow(L('mashups_win_title'));
-		//messageWin = new MessageWindow();
-	
-	var baseUITab = Ti.UI.createTab({
-		title: L('base_ui_title'),
-		icon: '/images/tabs/KS_nav_ui.png',
-		window: baseUIWin
-	});
-	baseUIWin.containingTab = baseUITab;
-	self.addTab(baseUITab);
+	var teamsWin = new TeamsWindow(L('teams_win_title'));
 	
 	var controlsTab = Ti.UI.createTab({
 		title: L('teams_win_title'),
@@ -33,33 +15,6 @@ function ApplicationTabGroup() {
 	});
 	teamsWin.containingTab = controlsTab;
 	self.addTab(controlsTab);
-	
-	var phoneTab = Ti.UI.createTab({
-		title:L('phone_win_title'),
-		icon:'/images/tabs/KS_nav_phone.png',
-		window:phoneWin
-	});
-	phoneWin.containingTab = phoneTab;
-	self.addTab(phoneTab);
-	
-	var platformTab = Ti.UI.createTab({
-		title:L('platform_win_title'),
-		icon:'/images/tabs/KS_nav_platform.png',
-		window:platformWin
-	});
-	platformWin.containingTab = platformTab;
-	self.addTab(platformTab);
-	
-	var mashupsTab = Ti.UI.createTab({
-		title:L('mashups_win_title'),
-		icon:'/images/tabs/KS_nav_mashup.png',
-		window:mashupsWin
-	});
-	mashupsWin.containingTab = mashupsTab;
-	self.addTab(mashupsTab);
-	
-	self.setActiveTab(1);
-	
 	
 	// Tabgroup events and message window
 	messageWin = Titanium.UI.createWindow({
@@ -124,36 +79,6 @@ function ApplicationTabGroup() {
 		}
 	});
 	
-	self.addEventListener('focus', function(e) {
-		// On iOS, the "More..." tab is actually a tab container, not a tab. When it is clicked, e.tab is undefined.
-		if (!e.tab) {
-			return;
-		}
-
-		// iOS fires with source tabGroup. Android with source tab
-		if ((e.source == baseUITab) || (e.source == controlsTab) || (e.source == phoneTab) || (e.source == platformTab) || (e.source == mashupsTab) || (e.source == self)) {
-
-			messageLabel.text = 'tab changed to ' + e.index + ' old index ' + e.previousIndex;
-			messageWin.open();
-
-			setTimeout(function() {
-				Ti.API.info('tab = ' + e.tab.title + ', prevTab = ' + (e.previousTab ? e.previousTab.title : null));
-				messageLabel.text = 'active title ' + e.tab.title + ' old title ' + (e.previousTab ? e.previousTab.title : null);
-			}, 1000);
-
-			setTimeout(function() {
-				messageWin.close({
-					opacity : 0,
-					duration : 500
-				});
-			}, 2000);
-		}
-
-	}); 
-	
-	self.addEventListener('blur', function(e) {
-		Titanium.API.info('tab blur - new index ' + e.index + ' old index ' + e.previousIndex);
-	});
 	self.model = Ti.Platform.model;
 	
 	return self;

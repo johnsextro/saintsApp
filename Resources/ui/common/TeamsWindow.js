@@ -53,7 +53,6 @@ function TeamsWindow(title) {
 	});
 	
 	tableview.addEventListener('delete', function(e) {
-		Ti.API.info("row with team_id: " + e.row.value);
 		var props = Ti.App.Properties.getList('Teams');
 		props.splice(e.index, 1);
 		Ti.App.Properties.setList('Teams', props);
