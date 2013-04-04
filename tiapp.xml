@@ -13,8 +13,7 @@
     <version>0.2</version>
     <publisher>John Sextro</publisher>
     <url>http://www.johnsextro.com</url>
-    <description>none
-</description>
+    <description>none</description>
     <copyright>None</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
