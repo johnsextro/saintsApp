@@ -7,9 +7,10 @@ class Team(db.Model):
 	teamId = db.StringProperty()
 	coach = db.StringProperty()
 	school = db.StringProperty()
-	grade = db.IntegerProperty()
+	grade = db.StringProperty()
 	year = db.IntegerProperty()
 	schedule = db.TextProperty()
+	season= db.StringProperty()
 
 	# schedule contains json like this below
 	# {"games": [{"game_date": "4/1/2013", "time": "1:00 PM", "home": "St. J & A", "away": "ICD", location": "St. Joes"}]}

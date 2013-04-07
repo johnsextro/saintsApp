@@ -22,8 +22,25 @@ class Load(webapp2.RequestHandler):
 		url = urlfetch.fetch(url=team_url, deadline=99)
 		if url.status_code == 200:
 			tree = etree.HTML(url.content)
+			# logging.info(url.content)
 			elements = tree.xpath('//table[@class="list"]//tr')
-			self.save_team_games(elements, team_id[1], team_id[0])
+			# logging.info(str(season[0].text.strip())
+			self.save_team_games(elements, team_id[1], team_id[0], self.get_season(tree), self.get_grade(tree))
+
+
+	def get_grade(self, tree):
+		grade = ''
+		gradeElement = tree.xpath('//table[@class="list"]//tr/td[@class="smalltext"][7]/select[@class="smalltext"]//option[@selected = "selected"]/../@label')
+		if (len(gradeElement) == 1):
+			grade = gradeElement[0].strip()
+		return grade	
+
+	def get_season(self, tree):
+		season = ''
+		seasonElement = tree.xpath('//table/tr/td[1]/select//option[@selected = "selected"]')
+		if (len(seasonElement) == 1):
+			season = seasonElement[0].text.strip()
+		return season
 
 
 	def get_team_ids(self):
@@ -39,11 +56,13 @@ class Load(webapp2.RequestHandler):
 		return teams
 
 
-	def save_team_games(self, games, team_id, coach):
+	def save_team_games(self, games, team_id, coach, season, grade):
 		# todo: Need to account for teams that already exist in the database
 		t = team.Team(key_name=str(team_id))
 		t.teamId = str(team_id)
 		t.coach = coach
+		t.season = season
+		t.grade = grade
 		endIndex = 1
 		if (coach.find("-") > 1):
 			endIndex = coach.find("-")
