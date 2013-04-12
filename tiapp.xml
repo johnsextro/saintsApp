@@ -10,7 +10,7 @@
     <sdk-version>3.0.2.GA</sdk-version>
     <id>com.johnsextro.com</id>
     <name>KitchenSink</name>
-    <version>0.2</version>
+    <version>1</version>
     <publisher>John Sextro</publisher>
     <url>http://www.johnsextro.com</url>
     <description>none</description>
@@ -41,7 +41,7 @@
             <application>
                 <activity android:alwaysRetainTaskState="true"
                     android:configChanges="keyboardHidden|orientation"
-                    android:label="KitchenSink"
+                    android:label="St Joe Saints"
                     android:name=".KitchensinkActivity" android:theme="@style/Theme.Titanium">
                     <intent-filter>
                         <action android:name="android.intent.action.MAIN"/>
