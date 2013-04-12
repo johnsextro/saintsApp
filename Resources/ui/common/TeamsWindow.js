@@ -14,11 +14,14 @@ function TeamsWindow(title) {
 		winAddTeam.open();
 	});
 	
-	self.rightNavButton = btnAddTeam;	
+	self.rightNavButton = btnAddTeam;
+	self.add(btnAddTeam);	
 	
 	self.addEventListener('focus', function(e) {
 		var teams = [];
+		Ti.API.info("trying to load local teams");
 		if (Ti.App.Properties.getList('Teams') != null) {
+			Ti.API.info("Local teams found, building local teams list");
 			teams = Ti.App.Properties.getList('Teams');
 		}
 			// create table view data object
@@ -48,15 +51,15 @@ function TeamsWindow(title) {
 		}
 	});
 	
-	tableview.addEventListener('swipe', function(e) {
-		e.source.setEditable(true);
-	});
-	
-	tableview.addEventListener('delete', function(e) {
-		var props = Ti.App.Properties.getList('Teams');
-		props.splice(e.index, 1);
-		Ti.App.Properties.setList('Teams', props);
-	});
+	// tableview.addEventListener('swipe', function(e) {
+		// e.source.setEditable(true);
+	// });
+// 	
+	// tableview.addEventListener('delete', function(e) {
+		// var props = Ti.App.Properties.getList('Teams');
+		// props.splice(e.index, 1);
+		// Ti.App.Properties.setList('Teams', props);
+	// });
 	
 	return self;
 };
