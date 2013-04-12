@@ -21,7 +21,6 @@ function TeamsWindow(title) {
 		var teams = [];
 		Ti.API.info("trying to load local teams");
 		if (Ti.App.Properties.getList('Teams') != null) {
-			Ti.API.info("Local teams found, building local teams list");
 			teams = Ti.App.Properties.getList('Teams');
 		}
 			// create table view data object

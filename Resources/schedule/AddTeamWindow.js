@@ -25,7 +25,9 @@ function AddTeamWindow() {
 	var row = 0;
 	
 	btnAddTeam.addEventListener('click', function(e) {
-		var selected = pckrTeams.getSelectedRow(row);
+		Ti.API.info("" + row);
+		// var selected = pckrTeams.getSelectedRow(row);
+		var selected = data[row];
 		Ti.API.info(selected.title);
 		Ti.API.info(selected.value);
 		var savedTeams = [];
@@ -43,7 +45,7 @@ function AddTeamWindow() {
 	
 	pckrTeams.addEventListener('change', function(e) {
 		Ti.API.info("selected value " + e.rowIndex);
-	    row = e.selectedValue[0];
+	    row = e.rowIndex;
 	});
 	
 	
@@ -68,7 +70,7 @@ function AddTeamWindow() {
 		pckrTeams.selectionIndicator = true;
 		self.add(label1);
 		self.add(pckrTeams);
-		pckrTeams.setSelectedRow(0,0,true);
+		pckrTeams.setSelectedRow(0,0);
 		btnAddTeam.setTop(400);
 		btnAddTeam.setLeft(20);
 		btnCancel.setTop(400);
