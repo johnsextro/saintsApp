@@ -3,26 +3,32 @@ function AddTeamWindow() {
 		title:'Add Team',
 		backgroundColor:'black'
 	});
-	
+
+	self.layout = 'vertical'	
 	TeamsWindow = require('ui/common/TeamsWindow');
-	
+	var label1 = Ti.UI.createLabel({
+	  color: 'black',
+	  text: 'Choose a Team to Add',
+	  font:{fontSize:16},
+	  width: 'auto', height: 'auto'
+	});
 	var url = "http://x8-avian-bricolage-r.appspot.com/coach/CoachService.coach";
 	var data = [];
 	var json;
 	var btnAddTeam = Titanium.UI.createButton({
 		title:'Add Team',
-		height:40,
-		width:100
+		left:'5%'
 	});
 	var btnCancel = Titanium.UI.createButton({
 		title:'Cancel',
-		height:40,
-		width:100
+		left:'20%'
 	});
 	
-	var pckrTeams = Ti.UI.createPicker();
+	var pckrTeams = Ti.UI.createPicker({visibleItems: 8});
 	pckrTeams.selectionIndicator = true;
 	var row = 0;
+	
+
 	
 	btnAddTeam.addEventListener('click', function(e) {
 		Ti.API.info("" + row);
@@ -68,15 +74,16 @@ function AddTeamWindow() {
 		
 		pckrTeams.add(data); 
 		pckrTeams.selectionIndicator = true;
-		self.add(label1);
-		self.add(pckrTeams);
-		pckrTeams.setSelectedRow(0,0);
-		btnAddTeam.setTop(400);
-		btnAddTeam.setLeft(20);
-		btnCancel.setTop(400);
-		btnCancel.setLeft(140);
-		self.add(btnAddTeam);
-		self.add(btnCancel)			
+		pckrTeams.setSelectedRow(0,0);	
+		var body = Ti.UI.createView({height:'85%', layout:'vertical', backgroundColor:'#fff'});
+		body.add(label1);
+		body.add(pckrTeams);	
+		self.add(body);
+		
+		var footer = Ti.UI.createView({height:'15%', layout:'horizontal', backgroundColor:'silver'});
+		footer.add(btnAddTeam);
+		footer.add(btnCancel);
+		self.add(footer);
     },
 	onerror: function(e) {
 		Ti.API.error("STATUS: " + this.status);
@@ -87,19 +94,11 @@ function AddTeamWindow() {
 	    timeout:5000
 	});
 	
-	var label1 = Ti.UI.createLabel({
-	  color: 'white',
-	  text: 'Choose a Team to Add',
-	  font:{fontSize:14},
-	  top: 10,
-	  width: 'auto', height: 'auto'
-	});
-	
-
 	var params = '{"school": "SJC"}';
 	xhr.open("POST", url);
 	xhr.setRequestHeader('Content-Type','application/json')
 	xhr.send(params);
+
 	return self;
 };
 
