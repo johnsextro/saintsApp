@@ -3,19 +3,24 @@ function TeamsWindow(title) {
 		title:title,
 		backgroundColor:'white'
 	});
-
+	self.layout = 'vertical'
 	AddTeamWindow = require('schedule/AddTeamWindow');
-	var tableview = Titanium.UI.createTableView();
-	self.add(tableview);
 	
-	var btnAddTeam = Titanium.UI.createButton({title:'Add'});
+	var header = Ti.UI.createView({height:'10%',backgroundColor:'silver'});
+	var btnAddTeam = Titanium.UI.createButton({title:'Add', right:'5%'});
 	btnAddTeam.addEventListener('click', function(e) {
 		winAddTeam = new AddTeamWindow();
 		winAddTeam.open();
 	});
 	
-	self.rightNavButton = btnAddTeam;
-	self.add(btnAddTeam);	
+	header.add(btnAddTeam);
+	self.add(header);
+	
+	var body = Ti.UI.createView({height:Ti.UI.SIZE, layout:'vertical', backgroundColor:'#fff'});
+	var tableview = Titanium.UI.createTableView();
+	body.add(tableview);
+
+	self.add(body);
 	
 	self.addEventListener('focus', function(e) {
 		var teams = [];
