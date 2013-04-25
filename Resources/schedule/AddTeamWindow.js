@@ -94,7 +94,7 @@ function AddTeamWindow() {
 	    timeout:5000
 	});
 	
-	var params = '{"school": "SJC"}';
+	var params = '{"school": "SJ "}';
 	xhr.open("POST", url);
 	xhr.setRequestHeader('Content-Type','application/json')
 	xhr.send(params);

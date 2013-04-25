@@ -66,7 +66,8 @@ class Load(webapp2.RequestHandler):
 		endIndex = 1
 		if (coach.find("-") > 1):
 			endIndex = coach.find("-")
-			t.school = coach[:endIndex]
+			school = coach[:endIndex]
+			t.school = school.strip()
 		t.year = 2013
 		t.schedule = self.jsonify_games(games)
 		t.put()
