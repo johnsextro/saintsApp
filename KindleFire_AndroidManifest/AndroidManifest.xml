@@ -9,12 +9,12 @@
 
 	<application android:debuggable="false" 
                  android:icon="@drawable/appicon" 
-                 android:label="St Joe Saints" 
-                 android:name="KitchensinkApplication">
+                 android:label="SaintsSchedule" 
+                 android:name="SaintsSchedule">
 
 		<activity android:alwaysRetainTaskState="true" 
 				  android:configChanges="keyboardHidden|orientation" 
-				  android:label="St Joe Saints" 
+				  android:label="SaintsSchedule" 
 				  android:name=".KitchensinkActivity" 
 				  android:theme="@style/Theme.Titanium">
                     
