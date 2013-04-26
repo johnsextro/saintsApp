@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <manifest android:versionCode="1" android:versionName="1" 
-        package="com.appcelerator.kitchensink" 
+        package="com.johnsextro.saintsschedule" 
         xmlns:android="http://schemas.android.com/apk/res/android">
 	<supports-screens android:anyDensity="false"/>
     <uses-sdk android:minSdkVersion="8"/>

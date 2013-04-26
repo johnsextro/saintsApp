@@ -2,7 +2,7 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <deployment-targets>
         <target device="tizen">false</target>
-        <target device="mobileweb">true</target>
+        <target device="mobileweb">false</target>
         <target device="iphone">true</target>
         <target device="ipad">false</target>
         <target device="android">true</target>
@@ -43,7 +43,7 @@
                 <activity android:alwaysRetainTaskState="true"
                     android:configChanges="keyboardHidden|orientation"
                     android:label="SaintsSchedule"
-                    android:name=".KitchensinkActivity" android:theme="@style/Theme.Titanium">
+                    android:name=".SaintsSchedule" android:theme="@style/Theme.Titanium">
                     <intent-filter>
                         <action android:name="android.intent.action.MAIN"/>
                         <category android:name="android.intent.category.LAUNCHER"/>
