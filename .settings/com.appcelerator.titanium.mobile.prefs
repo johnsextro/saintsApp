@@ -1,3 +1,12 @@
+android/ATTR_MINIFY=true
+android/ATTR_PROJECT_NAME=saintsApp
+android/abi=armeabi
+android/distribute_path=/Users/family/Documents
+android/keystore_alias=SaintsSchedule
+android/keystore_password=C@f3mocha
+android/keystore_path=/Users/family/Documents/Titanium_Studio_Workspace/saintsApp/androidKeyStore
+android/recent_output=/Users/family/Documents
+android/sdk_version=Google APIs (Android 2.2)
 eclipse.preferences.version=1
 iosLaunchConfigurationAttributes/ATTR_MINIFY=true
 iosLaunchConfigurationAttributes/ATTR_PROJECT_NAME=saintsApp
