@@ -4,5 +4,6 @@
 build.log
 .pydevproject
 *.pyc
+.settings/
 .fastdev.lock
-*.settings/*
+

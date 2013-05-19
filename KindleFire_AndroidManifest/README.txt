@@ -1,1 +1,0 @@
-To run KitchenSink on Kindle Fire, Copy the `AndroidManifest.xml` found in this same folder to `platform/android`.
