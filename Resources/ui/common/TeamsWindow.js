@@ -3,6 +3,8 @@ function TeamsWindow(title) {
 		title:title,
 		backgroundColor:'white'
 	});
+	var osname = Ti.Platform.osname
+	
 	self.layout = 'vertical'
 	AddTeamWindow = require('schedule/AddTeamWindow');
 	
@@ -55,15 +57,17 @@ function TeamsWindow(title) {
 		}
 	});
 	
-	// tableview.addEventListener('swipe', function(e) {
-		// e.source.setEditable(true);
-	// });
-// 	
-	// tableview.addEventListener('delete', function(e) {
-		// var props = Ti.App.Properties.getList('Teams');
-		// props.splice(e.index, 1);
-		// Ti.App.Properties.setList('Teams', props);
-	// });
+	if (osname === 'iphone' || osname === 'ipad') {
+		tableview.addEventListener('swipe', function(e) {
+			e.source.setEditable(true);
+		});
+		
+		tableview.addEventListener('delete', function(e) {
+			var props = Ti.App.Properties.getList('Teams');
+			props.splice(e.index, 1);
+			Ti.App.Properties.setList('Teams', props);
+		});
+	}
 	
 	return self;
 };
