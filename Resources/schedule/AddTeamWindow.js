@@ -12,7 +12,8 @@ function AddTeamWindow() {
 	  font:{fontSize:16},
 	  width: 'auto', height: 'auto'
 	});
-	var url = "http://x8-avian-bricolage-r.appspot.com/coach/CoachService.coach";
+	// var url = "http://x8-avian-bricolage-r.appspot.com/coach/CoachService.coach";
+	var url = "http://localhost:8080/coach/CoachService.coach";
 	var data = [];
 	var json;
 	var btnAddTeam = Titanium.UI.createButton({
