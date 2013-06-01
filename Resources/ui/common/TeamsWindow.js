@@ -9,7 +9,7 @@ function TeamsWindow(title) {
 	AddTeamWindow = require('schedule/AddTeamWindow');
 	
 	var header = Ti.UI.createView({height:'10%',backgroundColor:'silver'});
-	var btnAddTeam = Titanium.UI.createButton({title:'Add', right:'5%'});
+	var btnAddTeam = Titanium.UI.createButton({title:'Add', right:'5%', style:Titanium.UI.iPhone.SystemButtonStyle.BORDERED});
 	btnAddTeam.addEventListener('click', function(e) {
 		winAddTeam = new AddTeamWindow();
 		winAddTeam.open();
@@ -57,17 +57,22 @@ function TeamsWindow(title) {
 		}
 	});
 	
-	if (osname === 'iphone' || osname === 'ipad') {
+	
 		tableview.addEventListener('swipe', function(e) {
-			e.source.setEditable(true);
+			if (osname === 'iphone' || osname === 'ipad') {
+				e.source.setEditable(true);
+			} else {
+				self.add(Titanium.UI.createButton({title:'Delete', style:Titanium.UI.iPhone.SystemButtonStyle.BORDERED, top:5, width:300, height:30}));
+			}
 		});
-		
-		tableview.addEventListener('delete', function(e) {
-			var props = Ti.App.Properties.getList('Teams');
-			props.splice(e.index, 1);
-			Ti.App.Properties.setList('Teams', props);
-		});
-	}
+	
+		if (osname === 'iphone' || osname === 'ipad') {	
+			tableview.addEventListener('delete', function(e) {
+				var props = Ti.App.Properties.getList('Teams');
+				props.splice(e.index, 1);
+				Ti.App.Properties.setList('Teams', props);
+			});
+		}
 	
 	return self;
 };
