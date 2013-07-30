@@ -12,8 +12,8 @@ function AddTeamWindow() {
 	  font:{fontSize:16},
 	  width: 'auto', height: 'auto'
 	});
-	// var url = "http://x8-avian-bricolage-r.appspot.com/coach/CoachService.coach";
-	var url = "http://localhost:8080/coach/CoachService.coach";
+	var url = "http://x8-avian-bricolage-r.appspot.com/coach/CoachService.coach";
+	// var url = "http://localhost:8080/coach/CoachService.coach";
 	var data = [];
 	var json;
 	var btnAddTeam = Titanium.UI.createButton({
@@ -29,14 +29,7 @@ function AddTeamWindow() {
 	pckrTeams.selectionIndicator = true;
 	var row = 0;
 	
-
-	
 	btnAddTeam.addEventListener('click', function(e) {
-		Ti.API.info("" + row);
-		// var selected = pckrTeams.getSelectedRow(row);
-		var selected = data[row];
-		Ti.API.info(selected.title);
-		Ti.API.info(selected.value);
 		var savedTeams = [];
 		if (Ti.App.Properties.getList('Teams') != null) {
 			savedTeams = Ti.App.Properties.getList('Teams');
@@ -51,7 +44,6 @@ function AddTeamWindow() {
 	});
 	
 	pckrTeams.addEventListener('change', function(e) {
-		Ti.API.info("selected value " + e.rowIndex);
 	    row = e.rowIndex;
 	});
 	
