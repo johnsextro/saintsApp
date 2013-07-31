@@ -86,8 +86,9 @@ function AddTeamWindow() {
 	    },
 	    timeout:5000
 	});
-	
-	var params = '{"school": "SJ"}';
+	var school = Ti.App.Properties.getString('School', '');
+	Ti.API.info(school);
+	var params = '{"school": "+school+"}';
 	xhr.open("POST", url);
 	xhr.setRequestHeader('Content-Type','application/json')
 	xhr.send(params);
