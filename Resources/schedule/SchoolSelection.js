@@ -46,14 +46,12 @@ function SchoolSelection() {
 
 	pckrSchool.setSelectedRow(0,0,true);
 	btnChooseSchool.addEventListener('click', function(e) {
-		Ti.API.info(selectedSchool);
 		Ti.App.Properties.setString('School', selectedSchool);
 		self.close();
 	});
 		
 	pckrSchool.selectionIndicator = true;
 	pckrSchool.addEventListener('change', function(e) {
-	    Ti.API.info("You selected row: "+e.row.value);
 	    selectedSchool = e.row.value;
 	});
 	pckrSchool.setSelectedRow(0,0,false);

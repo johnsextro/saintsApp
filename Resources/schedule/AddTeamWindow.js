@@ -16,6 +16,7 @@ function AddTeamWindow() {
 	// var url = "http://localhost:8080/coach/CoachService.coach";
 	var data = [];
 	var json;
+	var teamId, teamName;
 	var btnAddTeam = Titanium.UI.createButton({
 		title:'Add Team',
 		left:'5%'
@@ -34,7 +35,7 @@ function AddTeamWindow() {
 		if (Ti.App.Properties.getList('Teams') != null) {
 			savedTeams = Ti.App.Properties.getList('Teams');
 		}
-		savedTeams.push([selected.value, selected.title]);
+		savedTeams.push([teamId, teamName]);
 		Ti.App.Properties.setList('Teams', savedTeams);
 		self.close();
 	});
@@ -44,7 +45,8 @@ function AddTeamWindow() {
 	});
 	
 	pckrTeams.addEventListener('change', function(e) {
-	    row = e.rowIndex;
+	    teamId = e.row.value;
+	    teamName = e.row.title;
 	});
 	
 	
@@ -88,11 +90,13 @@ function AddTeamWindow() {
 	});
 	var school = Ti.App.Properties.getString('School', '');
 	Ti.API.info(school);
-	var params = '{"school": "+school+"}';
+	var params = '{"school": "' +school+ '"}';
+	Ti.API.info(params);
 	xhr.open("POST", url);
 	xhr.setRequestHeader('Content-Type','application/json')
 	xhr.send(params);
 
+	pckrTeams.setSelectedRow(0,0,false);
 	return self;
 };
 
