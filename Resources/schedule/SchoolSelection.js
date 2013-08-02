@@ -33,7 +33,7 @@ function SchoolSelection() {
 	}));
 	schools.push(Ti.UI.createPickerRow({
 		title : 'Sts. Joachim and Ann',
-		value : 'SJ'
+		value : 'JA'
 	}));
 	schools.push(Ti.UI.createPickerRow({
 		title : 'Academy of the Sacred Heart',
