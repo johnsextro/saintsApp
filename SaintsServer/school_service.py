@@ -25,8 +25,7 @@ class SchoolService(remote.Service):
 		schools = []
 		for team in t.getSchools():
 			school = School(school=team.school)
-			if school not in schools and school is not None:
-				logging.info(school)
+			if school not in schools:
 				schools.append(school)
 		return SchoolResponse(schools=schools)
 

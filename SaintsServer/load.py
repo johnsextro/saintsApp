@@ -66,7 +66,7 @@ class Load(webapp2.RequestHandler):
 		# todo: Need to account for teams that already exist in the database
 		t = team.Team(key_name=str(team_id))
 		t.teamId = str(team_id)
-		t.coach = coach[coach.find('-'):]
+		t.coach = coach[coach.find('-')+1:]
 		t.coach = t.coach.strip()
 		t.season = season
 		t.grade = grade

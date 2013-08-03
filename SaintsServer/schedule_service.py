@@ -21,7 +21,6 @@ class ScheduleService(remote.Service):
     def schedule(self, request):
 		t = Team()
 		games = t.getGames(request.team_id)
-		logging.info("games = " + games)
 		return ScheduleResponse(schedule=games)
 
 # Map the RPC service and path (/schedule)

@@ -6,45 +6,56 @@ function SchoolSelection() {
 	var selectedSchool = '';
 	
 	self.layout = 'vertical'
+	var instruction = Ti.UI.createLabel({
+	  color: 'white',
+	  text: 'Choose a School',
+	  font:{fontSize:16},
+	  width: 'auto', height: 'auto'
+	});
+	// var url = "http://x8-avian-bricolage-r.appspot.com/school/SchoolService.school";
+	var url = "http://localhost:8080/school/SchoolService.school";
+	var data = [];
+	var json;
+	
 	var btnChooseSchool = Titanium.UI.createButton({
-		title : 'OK',
-		top : 220
+		title : 'OK'
 	});
 	var pckrSchool = Ti.UI.createPicker({
 		top : 1
 	});
 
-	var schools = [];
-	schools.push(Ti.UI.createPickerRow({
-		title : 'St. Joseph',
-		value : 'SJ'
-	}));
-	schools.push(Ti.UI.createPickerRow({
-		title : 'Immaculate Conception, Dardenne',
-		value : 'ICD'
-	}));
-	schools.push(Ti.UI.createPickerRow({
-		title : 'St. Elizabeth',
-		value : 'SESR'
-	}));
-	schools.push(Ti.UI.createPickerRow({
-		title : 'Holy Spirit',
-		value : 'HS'
-	}));
-	schools.push(Ti.UI.createPickerRow({
-		title : 'Sts. Joachim and Ann',
-		value : 'JA'
-	}));
-	schools.push(Ti.UI.createPickerRow({
-		title : 'Academy of the Sacred Heart',
-		value : 'AS'
-	}));
-	pckrSchool.add(schools);
-	self.add(pckrSchool);
-	self.add(btnChooseSchool);
+	var xhr = Ti.Network.createHTTPClient({
+    onload: function() {
 
+		json = JSON.parse(this.responseText);
+		if (json.schools != "") {
+			Ti.API.info("schools has data");
+			for (i = 0; i < json.schools.length; i++) {
+				Ti.API.info("Creating picker row");
+				school = json.schools[i];
+				data.push(Ti.UI.createPickerRow({title: school.school, value: school.school, hasChild:false, test:''}));
+			}	
+		} else {
+			data.push({title: "No Coaches Found", hasChild:false, test:''});
+		}
+		
+		pckrSchool.add(data); 
+		var body = Ti.UI.createView({layout:'vertical', backgroundColor:'black'});
+		body.add(instruction);
+		body.add(pckrSchool);
+		body.add(btnChooseSchool);	
+		self.add(body);
+		pckrSchool.setSelectedRow(0,0,true);
+    },
+	onerror: function(e) {
+		Ti.API.error("STATUS: " + this.status);
+		Ti.API.error("TEXT:   " + this.responseText);
+		Ti.API.error("ERROR:  " + e.error);
+		alert('There was an error retrieving the remote data. Try again.');
+	    },
+	    timeout:5000
+	});
 
-	pckrSchool.setSelectedRow(0,0,true);
 	btnChooseSchool.addEventListener('click', function(e) {
 		Ti.App.Properties.setString('School', selectedSchool);
 		self.close();
@@ -54,6 +65,11 @@ function SchoolSelection() {
 	pckrSchool.addEventListener('change', function(e) {
 	    selectedSchool = e.row.value;
 	});
+	
+	xhr.open("POST", url);
+	xhr.setRequestHeader('Content-Type','application/json')
+	xhr.send();
+	
 	pckrSchool.setSelectedRow(0,0,false);
 	
 	return self;
