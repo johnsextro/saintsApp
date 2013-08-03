@@ -11,6 +11,7 @@ class Coach(messages.Message):
 	team_id = messages.StringField(1, required=True)
 	name = messages.StringField(2, required=True)
 	school = messages.StringField(3)
+	grade = messages.StringField(4)
 
 class Coaches(messages.Message):
 	coaches = messages.MessageField(Coach, 1, repeated=True)
@@ -27,7 +28,7 @@ class CoachService(remote.Service):
 		t = Team()
 		coaches = []
 		for team in t.getCoaches(request.school):
-			coach = Coach(team_id=team.teamId, name=team.coach, school=team.school)
+			coach = Coach(team_id=team.teamId, name=team.coach, school=team.school, grade=team.grade)
 			coaches.append(coach)
 		return Coaches(coaches=coaches)
 

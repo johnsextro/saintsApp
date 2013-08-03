@@ -12,8 +12,8 @@ function AddTeamWindow() {
 	  font:{fontSize:16},
 	  width: 'auto', height: 'auto'
 	});
-	var url = "http://x8-avian-bricolage-r.appspot.com/coach/CoachService.coach";
-	// var url = "http://localhost:8080/coach/CoachService.coach";
+	// var url = "http://x8-avian-bricolage-r.appspot.com/coach/CoachService.coach";
+	var url = "http://localhost:8080/coach/CoachService.coach";
 	var data = [];
 	var json;
 	var teamId, teamName;
@@ -55,13 +55,9 @@ function AddTeamWindow() {
 
 		json = JSON.parse(this.responseText);
 		if (json.coaches != "") {
-			Ti.API.info("Found coaches in response");
-			//replace this with a for loop to load all the games rather than just one.
-			//{"games": [{"game_date": "Sat, 01/05/2013", "time": "1:00 PM", "home": "St_Cletus-Schultehenrich (O)", "away": "SJC-Edmunds (C)", "location": "St_Cletus"}]}
 			for (i = 0; i < json.coaches.length; i++) {
 				coach = json.coaches[i];
-				Ti.API.info("Adding coach " + coach.name);
-				data.push(Ti.UI.createPickerRow({title: coach.name, value: coach.team_id, hasChild:false, test:''}));
+				data.push(Ti.UI.createPickerRow({title: coach.name + coach.grade, value: coach.team_id, hasChild:false, test:''}));
 			}	
 		} else {
 			data.push({title: "No Coaches Found", hasChild:false, test:''});

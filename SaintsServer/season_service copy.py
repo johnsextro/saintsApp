@@ -23,10 +23,12 @@ class SeasonService(remote.Service):
     def season(self, request):
 		t = Team()
 		seasons = []
+		logging.info("1000")
 		for team in t.getSeasons():
 			season = Season(season=team.season)
 			if season not in seasons:
 				seasons.append(season)
+		#logging.info("seasons = " + seasons.str())
 		return SeasonResponse(seasons=seasons)
 
 # Map the RPC service and path (/schedule)

@@ -18,6 +18,9 @@ handlers:
 - url: /season/.*
   script: season_service.app
 
+- url: /school/.*
+  script: school_service.app
+
 - url: /crontask/scrape
   script: load.app
 

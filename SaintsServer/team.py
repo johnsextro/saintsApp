@@ -40,3 +40,10 @@ class Team(db.Model):
 		q = db.Query(Team, projection=('season'), distinct=True)
 		q = Team.all()
 		return q.run()
+
+	def getSchools(self):
+		q = db.Query(Team, projection=('school'), distinct=True)
+		q.filter("school !=", None)
+		q.order("school")
+		q = Team.all()
+		return q.run()
