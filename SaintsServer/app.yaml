@@ -15,6 +15,9 @@ handlers:
 - url: /coach/.*
   script: coach_service.app
 
+- url: /season/.*
+  script: season_service.app
+
 - url: /crontask/scrape
   script: load.app
 
