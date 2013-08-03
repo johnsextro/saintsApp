@@ -7,7 +7,6 @@ function TeamsWindow(title) {
 
 	self.layout = 'vertical'
 	SchoolSelection = require('schedule/SchoolSelection');
-	SeasonSelection = require('schedule/SeasonSelection');
 
 
 	var header = Ti.UI.createView({
@@ -20,8 +19,8 @@ function TeamsWindow(title) {
 		style : Titanium.UI.iPhone.SystemButtonStyle.BORDERED
 	});
 	btnAddTeam.addEventListener('click', function(e) {
-		winSelectSeason = new SeasonSelection();
-		winSelectSeason.open();
+		schoolSelection = new SchoolSelection();
+		schoolSelection.open();
 	});
 
 	header.add(btnAddTeam);
@@ -38,12 +37,6 @@ function TeamsWindow(title) {
 	self.add(body);
 
 	self.addEventListener('focus', function(e) {
-		Ti.API.info("Checking for school selection");
-		if (Ti.App.Properties.getString('School', '') == '') {
-			schoolSelection = new SchoolSelection();
-			schoolSelection.open();
-		}
-
 		var teams = [];
 		Ti.API.info("trying to load local teams");
 		if (Ti.App.Properties.getList('Teams') != null) {

@@ -3,6 +3,8 @@ function SchoolSelection() {
 		title : 'Choose School',
 		backgroundColor : 'black'
 	});
+	
+	SeasonSelection = require('schedule/SeasonSelection');
 	var selectedSchool = '';
 	
 	self.layout = 'vertical'
@@ -12,8 +14,8 @@ function SchoolSelection() {
 	  font:{fontSize:16},
 	  width: 'auto', height: 'auto'
 	});
-	// var url = "http://x8-avian-bricolage-r.appspot.com/school/SchoolService.school";
-	var url = "http://localhost:8080/school/SchoolService.school";
+	var url = "http://x8-avian-bricolage-r.appspot.com/school/SchoolService.school";
+	// var url = "http://localhost:8080/school/SchoolService.school";
 	var data = [];
 	var json;
 	
@@ -29,9 +31,7 @@ function SchoolSelection() {
 
 		json = JSON.parse(this.responseText);
 		if (json.schools != "") {
-			Ti.API.info("schools has data");
 			for (i = 0; i < json.schools.length; i++) {
-				Ti.API.info("Creating picker row");
 				school = json.schools[i];
 				data.push(Ti.UI.createPickerRow({title: school.school, value: school.school, hasChild:false, test:''}));
 			}	
@@ -59,6 +59,8 @@ function SchoolSelection() {
 	btnChooseSchool.addEventListener('click', function(e) {
 		Ti.App.Properties.setString('School', selectedSchool);
 		self.close();
+		winSelectSeason = new SeasonSelection();
+		winSelectSeason.open();
 	});
 		
 	pckrSchool.selectionIndicator = true;
