@@ -25,7 +25,7 @@ function AddTeamWindow() {
 		title:'Cancel',
 		left:'20%'
 	});
-	
+	var osname = Ti.Platform.osname;
 	var pckrTeams = Ti.UI.createPicker({visibleItems: 8});
 	pckrTeams.selectionIndicator = true;
 	var row = 0;
@@ -86,7 +86,6 @@ function AddTeamWindow() {
 	});
 	var school = Ti.App.Properties.getString('School', '');
 	var params = '{"school": "' +school+ '"}';
-	Ti.API.info(params);
 	xhr.open("POST", url);
 	xhr.setRequestHeader('Content-Type','application/json')
 	xhr.send(params);

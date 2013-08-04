@@ -38,7 +38,6 @@ function TeamsWindow(title) {
 
 	self.addEventListener('focus', function(e) {
 		var teams = [];
-		Ti.API.info("trying to load local teams");
 		if (Ti.App.Properties.getList('Teams') != null) {
 			teams = Ti.App.Properties.getList('Teams');
 		}
@@ -62,6 +61,10 @@ function TeamsWindow(title) {
 			}
 		};
 		tableview.setData(data);
+		var popupwin = require("schedule/popup");
+		if (Ti.App.Properties.getBool('Welcome', false) == false) {
+			popupwin.popup().open();	
+		}
 	});
 
 	// create table view event listener
@@ -100,6 +103,7 @@ function TeamsWindow(title) {
 			Ti.App.Properties.setList('Teams', props);
 		});
 	}
+	
 	return self;
 };
 module.exports = TeamsWindow;

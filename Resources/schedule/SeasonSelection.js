@@ -3,18 +3,24 @@ function SeasonSelection() {
 		title : 'Choose A Season',
 		backgroundColor : 'black'
 	});
+	var osname = Ti.Platform.osname;
 	var selectedSeason = '';
 	AddTeamWindow = require('schedule/AddTeamWindow');
 	
 	self.layout = 'vertical'
 	var btnChooseSeason = Titanium.UI.createButton({
-		title : 'OK',
-		top : 200
+		title : 'OK'
 	});
 	var pckrSeason = Ti.UI.createPicker({
 		top : 1
 	});
-
+	var instruction = Ti.UI.createLabel({
+	  color: 'white',
+	  text: 'Choose the Season',
+	  font:{fontSize:16},
+	  width: 'auto', height: 'auto'
+	});
+	
 	var seasons = [];
 	seasons.push(Ti.UI.createPickerRow({
 		title : 'Baseball/Softball 2013',
@@ -28,16 +34,20 @@ function SeasonSelection() {
 		title : 'Volleyball 2013',
 		value : '2013 St. Charles CYC Volleyball'
 	}));
+	
+	var body = Ti.UI.createView({layout:'vertical', backgroundColor:'black'});
+	body.add(instruction);
 	pckrSeason.add(seasons);
-	self.add(pckrSeason);
-	self.add(btnChooseSeason);
+	body.add(pckrSeason);
+	body.add(btnChooseSeason);
+	self.add(body);
 
 
 	pckrSeason.setSelectedRow(0,0,true);
 	btnChooseSeason.addEventListener('click', function(e) {
 		Ti.App.Properties.setString('Season', selectedSeason);
-		self.close();
 		winAddTeam = new AddTeamWindow();
+		self.close();
 		winAddTeam.open();
 	});
 		

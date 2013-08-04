@@ -3,7 +3,7 @@ function SchoolSelection() {
 		title : 'Choose School',
 		backgroundColor : 'black'
 	});
-	
+	var osname = Ti.Platform.osname;
 	SeasonSelection = require('schedule/SeasonSelection');
 	var selectedSchool = '';
 	
@@ -58,9 +58,10 @@ function SchoolSelection() {
 
 	btnChooseSchool.addEventListener('click', function(e) {
 		Ti.App.Properties.setString('School', selectedSchool);
-		self.close();
 		winSelectSeason = new SeasonSelection();
+		self.close();
 		winSelectSeason.open();
+
 	});
 		
 	pckrSchool.selectionIndicator = true;
