@@ -6,7 +6,8 @@ function TeamsWindow(title) {
 	var osname = Ti.Platform.osname
 
 	self.layout = 'vertical'
-	SchoolSelection = require('schedule/SchoolSelection');
+	SeasonSelection = require('schedule/SeasonSelection');
+	
 
 
 	var header = Ti.UI.createView({
@@ -19,8 +20,8 @@ function TeamsWindow(title) {
 		style : Titanium.UI.iPhone.SystemButtonStyle.BORDERED
 	});
 	btnAddTeam.addEventListener('click', function(e) {
-		schoolSelection = new SchoolSelection();
-		schoolSelection.open();
+		winSelectSeason = new SeasonSelection();
+		winSelectSeason.open();
 	});
 
 	header.add(btnAddTeam);

@@ -20,3 +20,8 @@ indexes:
   - name: school=
   - name: school
   - name: coach
+
+- kind: Team
+  properties:
+  - name: season
+  - name: school

@@ -10,7 +10,7 @@ class School(messages.Message):
 	school = messages.StringField(1, required=True)
 
 class SchoolRequest(messages.Message):
-    schoolRequest = messages.StringField(1, required=False)
+    season = messages.StringField(1, required=False)
 
 # Create the response string
 class SchoolResponse(messages.Message):
@@ -23,7 +23,7 @@ class SchoolService(remote.Service):
  	def school(self, request):
 		t = Team()
 		schools = []
-		for team in t.getSchools():
+		for team in t.getSchools(request.season):
 			school = School(school=team.school)
 			if school not in schools:
 				schools.append(school)

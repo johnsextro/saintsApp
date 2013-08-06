@@ -4,7 +4,7 @@ function SchoolSelection() {
 		backgroundColor : 'black'
 	});
 	var osname = Ti.Platform.osname;
-	SeasonSelection = require('schedule/SeasonSelection');
+	AddTeamWindow = require('schedule/AddTeamWindow');
 	var selectedSchool = '';
 	
 	self.layout = 'vertical'
@@ -58,10 +58,9 @@ function SchoolSelection() {
 
 	btnChooseSchool.addEventListener('click', function(e) {
 		Ti.App.Properties.setString('School', selectedSchool);
-		winSelectSeason = new SeasonSelection();
+		winAddTeam = new AddTeamWindow();
 		self.close();
-		winSelectSeason.open();
-
+		winAddTeam.open();
 	});
 		
 	pckrSchool.selectionIndicator = true;
@@ -69,9 +68,12 @@ function SchoolSelection() {
 	    selectedSchool = e.row.value;
 	});
 	
+	
+	var season = Ti.App.Properties.getString('Season', '');
+	var params = '{"season": "' +season+ '"}';
 	xhr.open("POST", url);
 	xhr.setRequestHeader('Content-Type','application/json')
-	xhr.send();
+	xhr.send(params);
 	
 	pckrSchool.setSelectedRow(0,0,false);
 	
