@@ -6,8 +6,8 @@ function AddTeamWindow() {
 
 	self.layout = 'vertical'	
 	TeamsWindow = require('ui/common/TeamsWindow');
-	var label1 = Ti.UI.createLabel({
-	  color: 'black',
+	var instructions = Ti.UI.createLabel({
+	  color: 'white',
 	  text: 'Choose a Team to Add',
 	  font:{fontSize:16},
 	  width: 'auto', height: 'auto'
@@ -19,11 +19,16 @@ function AddTeamWindow() {
 	var teamId, teamName;
 	var btnAddTeam = Titanium.UI.createButton({
 		title:'Add Team',
-		left:'5%'
+		right:'10',
+		bottom: '10'
 	});
-	var btnCancel = Titanium.UI.createButton({
-		title:'Cancel',
-		left:'20%'
+	
+	var btnCancel = Titanium.UI.createView({
+		backgroundImage:'/images/icon_arrow_left.png',
+		width: '40',
+		height: '30',
+		right: '10',
+		left: '10'
 	});
 	var osname = Ti.Platform.osname;
 	var pckrTeams = Ti.UI.createPicker({visibleItems: 8});
@@ -66,12 +71,12 @@ function AddTeamWindow() {
 		pckrTeams.add(data); 
 		pckrTeams.selectionIndicator = true;
 		pckrTeams.setSelectedRow(0,0);	
-		var body = Ti.UI.createView({height:'85%', layout:'vertical', backgroundColor:'#fff'});
-		body.add(label1);
+		var body = Ti.UI.createView({height:'85%', layout:'vertical', backgroundColor:'black'});
+		body.add(instructions);
 		body.add(pckrTeams);	
 		self.add(body);
 		
-		var footer = Ti.UI.createView({height:'15%', layout:'horizontal', backgroundColor:'silver'});
+		var footer = Ti.UI.createView({height:'15%', backgroundColor:'gray'});
 		footer.add(btnAddTeam);
 		footer.add(btnCancel);
 		self.add(footer);
