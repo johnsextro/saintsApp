@@ -85,7 +85,8 @@ function AddTeamWindow() {
 	    timeout:5000
 	});
 	var school = Ti.App.Properties.getString('School', '');
-	var params = '{"school": "' +school+ '"}';
+	var season = Ti.App.Properties.getString('Season', '');
+	var params = '{"school": "' +school+ '", "season": "' +season+ '"}';
 	xhr.open("POST", url);
 	xhr.setRequestHeader('Content-Type','application/json')
 	xhr.send(params);

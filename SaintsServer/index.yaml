@@ -25,3 +25,9 @@ indexes:
   properties:
   - name: season
   - name: school
+
+- kind: Team
+  properties:
+  - name: school
+  - name: season
+  - name: coach
