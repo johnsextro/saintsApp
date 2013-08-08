@@ -7,17 +7,17 @@ function TeamsWindow(title) {
 
 	self.layout = 'vertical'
 	SeasonSelection = require('schedule/SeasonSelection');
-	
-
 
 	var header = Ti.UI.createView({
-		height : '10%',
+		height : '46',
 		backgroundColor : 'silver'
 	});
 	var btnAddTeam = Titanium.UI.createButton({
-		title : 'Add',
-		right : '5%',
-		style : Titanium.UI.iPhone.SystemButtonStyle.BORDERED
+		backgroundImage:'/images/add-list-48.png',
+		width: '40',
+		height: '40',
+		right:'10',
+		top: '3'
 	});
 	btnAddTeam.addEventListener('click', function(e) {
 		winSelectSeason = new SeasonSelection();

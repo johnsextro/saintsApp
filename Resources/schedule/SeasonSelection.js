@@ -10,8 +10,11 @@ function SeasonSelection() {
 	
 	self.layout = 'vertical'
 	var btnChooseSeason = Titanium.UI.createButton({
-		title : 'OK'
-	});
+		backgroundImage:'/images/approval-48.png',
+		width: '40',
+		height: '40',
+		right:'10',
+		bottom: '3'	});
 	var pckrSeason = Ti.UI.createPicker({
 		top : 1
 	});
@@ -41,12 +44,15 @@ function SeasonSelection() {
 		}
 		
 		pckrSeason.add(data); 
-		var body = Ti.UI.createView({layout:'vertical', backgroundColor:'black'});
+		var body = Ti.UI.createView({layout:'vertical', backgroundColor:'black', height: '85%'});
 		body.add(instructions);
 		body.add(pckrSeason);
-		body.add(btnChooseSeason);	
 		self.add(body);
 		pckrSeason.setSelectedRow(0,0,true);
+		var footer = Ti.UI.createView({height:'46', bottom: 0, backgroundColor:'silver'});
+		footer.add(btnChooseSeason);
+		// footer.add(btnCancel);
+		self.add(footer);
     },
 	onerror: function(e) {
 		Ti.API.error("STATUS: " + this.status);
