@@ -5,6 +5,7 @@ function SchoolSelection() {
 	});
 	var osname = Ti.Platform.osname;
 	AddTeamWindow = require('schedule/AddTeamWindow');
+	SeasonSelection = require('schedule/SeasonSelection');
 	var selectedSchool = '';
 	
 	self.layout = 'vertical'
@@ -47,6 +48,13 @@ function SchoolSelection() {
 	btnCancel.addEventListener('click', function(e) {
 		self.close();
 	});
+	
+	btnBack.addEventListener('click', function(e) {
+		winSelectSeason = new SeasonSelection();
+		winSelectSeason.open();
+		self.close();
+	});
+
 	
 	var pckrSchool = Ti.UI.createPicker({
 		top : 1

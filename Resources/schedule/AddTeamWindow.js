@@ -6,6 +6,8 @@ function AddTeamWindow() {
 
 	self.layout = 'vertical'	
 	TeamsWindow = require('ui/common/TeamsWindow');
+	SchoolSelection = require('schedule/SchoolSelection');
+	
 	var instructions = Ti.UI.createLabel({
 	  color: 'white',
 	  text: 'Choose a Team to Add',
@@ -60,6 +62,12 @@ function AddTeamWindow() {
 	btnCancel.addEventListener('click', function(e) {
 		self.close();
 	});
+	
+	btnBack.addEventListener('click', function(e) {
+		schoolSelection = new SchoolSelection();
+		schoolSelection.open();
+		self.close();
+	});	
 	
 	pckrTeams.addEventListener('change', function(e) {
 	    teamId = e.row.value;
