@@ -33,6 +33,15 @@ function AddTeamWindow() {
 		left: '10',
 		bottom: '3'
 	});
+	
+	var btnBack = Titanium.UI.createButton({
+		backgroundImage:'/images/arrow-81-48.png',
+		width: '40',
+		height: '40',
+		center: self.width/2,
+		bottom: '3'
+	});
+	
 	var osname = Ti.Platform.osname;
 	var pckrTeams = Ti.UI.createPicker({visibleItems: 19, useSpinner: true});
 	pckrTeams.selectionIndicator = true;
@@ -82,6 +91,7 @@ function AddTeamWindow() {
 		var footer = Ti.UI.createView({height:'46', bottom: 0, backgroundColor:'silver'});
 		footer.add(btnAddTeam);
 		footer.add(btnCancel);
+		footer.add(btnBack);
 		self.add(footer);
     },
 	onerror: function(e) {

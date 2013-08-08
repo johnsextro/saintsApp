@@ -15,6 +15,7 @@ function SeasonSelection() {
 		height: '40',
 		right:'10',
 		bottom: '3'	});
+	
 	var pckrSeason = Ti.UI.createPicker({
 		top : 1
 	});
@@ -23,12 +24,23 @@ function SeasonSelection() {
 		backgroundImage:'/images/x-mark-48.png',
 		width: '40',
 		height: '40',
-		right: '10',
 		left: '10',
 		bottom: '3'
 	});
 	
+	var btnBack = Titanium.UI.createButton({
+		backgroundImage:'/images/arrow-81-48.png',
+		width: '40',
+		height: '40',
+		center: self.width/2,
+		bottom: '3'
+	});
+	
 	btnCancel.addEventListener('click', function(e) {
+		self.close();
+	});
+	
+	btnBack.addEventListener('click', function(e) {
 		self.close();
 	});
 	
@@ -66,6 +78,7 @@ function SeasonSelection() {
 		var footer = Ti.UI.createView({height:'46', bottom: 0, backgroundColor:'silver'});
 		footer.add(btnChooseSeason);
 		footer.add(btnCancel);
+		footer.add(btnBack);
 		self.add(footer);
     },
 	onerror: function(e) {

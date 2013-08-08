@@ -36,6 +36,14 @@ function SchoolSelection() {
 		bottom: '3'
 	});
 	
+	var btnBack = Titanium.UI.createButton({
+		backgroundImage:'/images/arrow-81-48.png',
+		width: '40',
+		height: '40',
+		center: self.width/2,
+		bottom: '3'
+	});
+	
 	btnCancel.addEventListener('click', function(e) {
 		self.close();
 	});
@@ -67,6 +75,7 @@ function SchoolSelection() {
 		var footer = Ti.UI.createView({height:'46', bottom: 0, backgroundColor:'silver'});
 		footer.add(btnChooseSchool);
 		footer.add(btnCancel);
+		footer.add(btnBack);
 		self.add(footer);
     },
 	onerror: function(e) {
