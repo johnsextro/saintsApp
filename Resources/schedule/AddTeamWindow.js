@@ -17,21 +17,24 @@ function AddTeamWindow() {
 	var data = [];
 	var json;
 	var teamId, teamName;
-	var btnAddTeam = Titanium.UI.createButton({
-		title:'Add Team',
+	var btnAddTeam = Titanium.UI.createView({
+		backgroundImage:'/images/approval-48.png',
+		width: '40',
+		height: '40',
 		right:'10',
-		bottom: '10'
+		bottom: '3'
 	});
 	
 	var btnCancel = Titanium.UI.createView({
-		backgroundImage:'/images/icon_arrow_left.png',
+		backgroundImage:'/images/arrow-81-48.png',
 		width: '40',
-		height: '30',
+		height: '40',
 		right: '10',
-		left: '10'
+		left: '10',
+		bottom: '3'
 	});
 	var osname = Ti.Platform.osname;
-	var pckrTeams = Ti.UI.createPicker({visibleItems: 8});
+	var pckrTeams = Ti.UI.createPicker({visibleItems: 19, useSpinner: true});
 	pckrTeams.selectionIndicator = true;
 	var row = 0;
 	
@@ -76,7 +79,7 @@ function AddTeamWindow() {
 		body.add(pckrTeams);	
 		self.add(body);
 		
-		var footer = Ti.UI.createView({height:'15%', backgroundColor:'gray'});
+		var footer = Ti.UI.createView({height:'46', bottom: 0, backgroundColor:'silver'});
 		footer.add(btnAddTeam);
 		footer.add(btnCancel);
 		self.add(footer);
