@@ -20,7 +20,11 @@ function SchoolSelection() {
 	var json;
 	
 	var btnChooseSchool = Titanium.UI.createButton({
-		title : 'OK'
+		backgroundImage:'/images/approval-48.png',
+		width: '40',
+		height: '40',
+		right:'10',
+		bottom: '3'
 	});
 	var pckrSchool = Ti.UI.createPicker({
 		top : 1
@@ -40,12 +44,16 @@ function SchoolSelection() {
 		}
 		
 		pckrSchool.add(data); 
-		var body = Ti.UI.createView({layout:'vertical', backgroundColor:'black'});
+		var body = Ti.UI.createView({layout:'vertical', backgroundColor:'black', height: '85%'});
 		body.add(instruction);
 		body.add(pckrSchool);
 		body.add(btnChooseSchool);	
 		self.add(body);
 		pckrSchool.setSelectedRow(0,0,true);
+		var footer = Ti.UI.createView({height:'46', bottom: 0, backgroundColor:'silver'});
+		footer.add(btnChooseSchool);
+		// footer.add(btnCancel);
+		self.add(footer);
     },
 	onerror: function(e) {
 		Ti.API.error("STATUS: " + this.status);

@@ -26,7 +26,7 @@ function AddTeamWindow() {
 	});
 	
 	var btnCancel = Titanium.UI.createView({
-		backgroundImage:'/images/arrow-81-48.png',
+		backgroundImage:'/images/x-mark-48.png',
 		width: '40',
 		height: '40',
 		right: '10',
