@@ -26,6 +26,20 @@ function SchoolSelection() {
 		right:'10',
 		bottom: '3'
 	});
+	
+	var btnCancel = Titanium.UI.createButton({
+		backgroundImage:'/images/x-mark-48.png',
+		width: '40',
+		height: '40',
+		right: '10',
+		left: '10',
+		bottom: '3'
+	});
+	
+	btnCancel.addEventListener('click', function(e) {
+		self.close();
+	});
+	
 	var pckrSchool = Ti.UI.createPicker({
 		top : 1
 	});
@@ -52,7 +66,7 @@ function SchoolSelection() {
 		pckrSchool.setSelectedRow(0,0,true);
 		var footer = Ti.UI.createView({height:'46', bottom: 0, backgroundColor:'silver'});
 		footer.add(btnChooseSchool);
-		// footer.add(btnCancel);
+		footer.add(btnCancel);
 		self.add(footer);
     },
 	onerror: function(e) {

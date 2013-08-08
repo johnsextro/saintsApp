@@ -18,6 +18,20 @@ function SeasonSelection() {
 	var pckrSeason = Ti.UI.createPicker({
 		top : 1
 	});
+	
+	var btnCancel = Titanium.UI.createButton({
+		backgroundImage:'/images/x-mark-48.png',
+		width: '40',
+		height: '40',
+		right: '10',
+		left: '10',
+		bottom: '3'
+	});
+	
+	btnCancel.addEventListener('click', function(e) {
+		self.close();
+	});
+	
 	var instructions = Ti.UI.createLabel({
 	  color: 'white',
 	  text: 'Choose the Season',
@@ -51,7 +65,7 @@ function SeasonSelection() {
 		pckrSeason.setSelectedRow(0,0,true);
 		var footer = Ti.UI.createView({height:'46', bottom: 0, backgroundColor:'silver'});
 		footer.add(btnChooseSeason);
-		// footer.add(btnCancel);
+		footer.add(btnCancel);
 		self.add(footer);
     },
 	onerror: function(e) {

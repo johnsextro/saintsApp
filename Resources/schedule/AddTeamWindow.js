@@ -17,7 +17,7 @@ function AddTeamWindow() {
 	var data = [];
 	var json;
 	var teamId, teamName;
-	var btnAddTeam = Titanium.UI.createView({
+	var btnAddTeam = Titanium.UI.createButton({
 		backgroundImage:'/images/approval-48.png',
 		width: '40',
 		height: '40',
@@ -25,7 +25,7 @@ function AddTeamWindow() {
 		bottom: '3'
 	});
 	
-	var btnCancel = Titanium.UI.createView({
+	var btnCancel = Titanium.UI.createButton({
 		backgroundImage:'/images/x-mark-48.png',
 		width: '40',
 		height: '40',
