@@ -19,12 +19,22 @@ function TeamsWindow(title) {
 		right:'10',
 		top: '3'
 	});
+	
+	var btnInfo = Titanium.UI.createButton({
+		backgroundImage:'/images/info-3-48.png',
+		width: '40',
+		height: '40',
+		left: '10',
+		top: '3'
+	});
+	
 	btnAddTeam.addEventListener('click', function(e) {
 		winSelectSeason = new SeasonSelection();
 		winSelectSeason.open();
 	});
 
 	header.add(btnAddTeam);
+	header.add(btnInfo);
 	self.add(header);
 
 	var body = Ti.UI.createView({
