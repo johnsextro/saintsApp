@@ -9,7 +9,7 @@ exports.popup = function(){
     win.orientationModes = [Ti.UI.PORTRAIT];
  
     var blur = Ti.UI.createAnimation({
-        opacity: 0.50
+        opacity: 0.10
     })
     var shadow = Ti.UI.createView({
         left: 20,
@@ -33,7 +33,7 @@ exports.popup = function(){
     });
  
     var lblInstructions = Ti.UI.createLabel();
-    lblInstructions.setText("Thanks for purchasing the CYC Schedule App!\n\nThese schedules are updated nightly from the CYC Website to make sure you have the latest schedules right at your finger tips.\n\nTo get started click the 'Add' button to select the teams you want to track.")
+    lblInstructions.setText("Thanks for purchasing the CYC Schedule App!\n\nThese schedules are updated nightly from the CYC Website to make sure you have the latest schedules right at your finger tips.\n\nTo get started click the '+' button to add the teams you want to track.")
 
     var btngroup = Ti.UI.createView({
         layout: "vertical"
@@ -50,7 +50,7 @@ exports.popup = function(){
 	});
     frmLog.add(lblInstructions);
     frmLog.add(btnClose);
-    shadow.animate(blur);
+    // shadow.animate(blur);
     win.add(shadow);
     win.add(frmLog);
     return win;

@@ -9,7 +9,7 @@ function TeamsWindow(title) {
 	SeasonSelection = require('schedule/SeasonSelection');
 
 	var header = Ti.UI.createView({
-		height : '46',
+		height : '50',
 		backgroundColor : 'silver'
 	});
 	var btnAddTeam = Titanium.UI.createButton({
@@ -28,6 +28,14 @@ function TeamsWindow(title) {
 		top: '3'
 	});
 	
+	var lblInstructions = Titanium.UI.createLabel({
+	  color: 'black',
+	  text: 'Slide team right to remove',
+	  font:{fontSize:12},
+	  width: 'auto', 
+	  height: 'auto'
+	});
+	
 	btnAddTeam.addEventListener('click', function(e) {
 		winSelectSeason = new SeasonSelection();
 		winSelectSeason.open();
@@ -35,6 +43,7 @@ function TeamsWindow(title) {
 
 	header.add(btnAddTeam);
 	header.add(btnInfo);
+	header.add(lblInstructions);
 	self.add(header);
 
 	var body = Ti.UI.createView({
@@ -43,7 +52,9 @@ function TeamsWindow(title) {
 		backgroundColor : '#fff'
 	});
 	var tableview = Titanium.UI.createTableView();
+
 	body.add(tableview);
+	
 
 	self.add(body);
 
@@ -99,6 +110,7 @@ function TeamsWindow(title) {
 			var props = Ti.App.Properties.getList('Teams');
 			props.splice(e.index, 1);
 			Ti.App.Properties.setList('Teams', props);
+			self.fireEvent('focus');
 		}
 	});
 

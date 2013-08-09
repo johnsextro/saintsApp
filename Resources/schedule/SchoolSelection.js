@@ -24,7 +24,7 @@ function SchoolSelection() {
 		backgroundImage:'/images/approval-48.png',
 		width: '40',
 		height: '40',
-		right:'10',
+		right: '10',
 		bottom: '3'
 	});
 	
@@ -32,7 +32,6 @@ function SchoolSelection() {
 		backgroundImage:'/images/x-mark-48.png',
 		width: '40',
 		height: '40',
-		right: '10',
 		left: '10',
 		bottom: '3'
 	});
@@ -85,6 +84,7 @@ function SchoolSelection() {
 		footer.add(btnCancel);
 		footer.add(btnBack);
 		self.add(footer);
+
     },
 	onerror: function(e) {
 		Ti.API.error("STATUS: " + this.status);
