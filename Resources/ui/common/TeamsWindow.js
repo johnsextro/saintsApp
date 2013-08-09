@@ -61,7 +61,6 @@ function TeamsWindow(title) {
 				hasChild : true,
 				test : 'schedule/schedule'
 			});
-			// data.push({title:'abc', value:'1234', hasChild:true, test:'schedule/schedule'});
 		};
 
 		// create table view
@@ -97,13 +96,9 @@ function TeamsWindow(title) {
 		if (osname === 'iphone' || osname === 'ipad') {
 			e.source.setEditable(true);
 		} else {
-			self.add(Titanium.UI.createButton({
-				title : 'Delete',
-				style : Titanium.UI.iPhone.SystemButtonStyle.BORDERED,
-				top : 5,
-				width : 300,
-				height : 30
-			}));
+			var props = Ti.App.Properties.getList('Teams');
+			props.splice(e.index, 1);
+			Ti.App.Properties.setList('Teams', props);
 		}
 	});
 

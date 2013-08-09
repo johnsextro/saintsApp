@@ -14,7 +14,8 @@ function SeasonSelection() {
 		width: '40',
 		height: '40',
 		right:'10',
-		bottom: '3'	});
+		bottom: '3'	
+	});
 	
 	var pckrSeason = Ti.UI.createPicker({
 		top : 1

@@ -45,7 +45,7 @@ function AddTeamWindow() {
 	});
 	
 	var osname = Ti.Platform.osname;
-	var pckrTeams = Ti.UI.createPicker({visibleItems: 19, useSpinner: true});
+	var pckrTeams = Ti.UI.createPicker({visibleItems: 15});
 	pckrTeams.selectionIndicator = true;
 	var row = 0;
 	
