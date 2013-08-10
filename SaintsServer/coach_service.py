@@ -27,8 +27,9 @@ class CoachService(remote.Service):
 
 	@remote.method(CoachRequest, Coaches)
 	def coach(self, request):
-		if request.school is None:
-			cacheKey = 'AllCoaches'
+		cacheKey = 'AllCoaches'
+		if (request.school is not None) and (request.season is None):
+			cacheKey = request.school
 		else:
 			cacheKey = request.season + request.school
 		theCache = memcache.get(cacheKey)
