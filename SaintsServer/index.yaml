@@ -17,6 +17,12 @@ indexes:
 
 - kind: Team
   properties:
+  - name: school
+  - name: season
+  - name: coach
+
+- kind: Team
+  properties:
   - name: school=
   - name: school
   - name: coach
@@ -25,9 +31,3 @@ indexes:
   properties:
   - name: season
   - name: school
-
-- kind: Team
-  properties:
-  - name: school
-  - name: season
-  - name: coach

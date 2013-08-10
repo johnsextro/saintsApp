@@ -39,9 +39,11 @@ class Team(db.Model):
 		return q.run()
 
 	def getSeasons(self):
+		logging.info("Getting seasons from DB")
 		q = db.Query(Team, projection=('season'), distinct=True)
 		q = Team.all()
 		return q.run()
+			
 
 	def getSchools(self, season=None):
 		q = db.Query(Team, projection=('school'), distinct=True)

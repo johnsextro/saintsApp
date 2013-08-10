@@ -2,6 +2,7 @@ from protorpc import messages
 from protorpc import remote
 from protorpc.wsgi import service
 from team import Team
+from google.appengine.api import memcache
 import logging
 
 package = 'SaintsSchedule'
@@ -21,13 +22,21 @@ class SeasonService(remote.Service):
 
     @remote.method(SeasonRequest, SeasonResponse)
     def season(self, request):
-		t = Team()
-		seasons = []
-		for team in t.getSeasons():
-			season = Season(season=team.season)
-			if season not in seasons:
-				seasons.append(season)
-		return SeasonResponse(seasons=seasons)
+		theCache = memcache.get('seasons')
+		if theCache is None:
+			logging.info("Nothing in cache")
+			t = Team()
+			seasons = []
+			for team in t.getSeasons():
+				season = Season(season=team.season)
+				if season not in seasons:
+					seasons.append(season)
+			if not memcache.add('seasons', seasons, 5):
+				logging.error('memcache failed to set')
+			return SeasonResponse(seasons=seasons)
+		else:
+			logging.info("Using memcache")
+			return SeasonResponse(seasons=theCache)
 
 # Map the RPC service and path (/schedule)
 app = service.service_mappings([('/season.*', SeasonService)])
