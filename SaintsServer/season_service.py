@@ -24,18 +24,16 @@ class SeasonService(remote.Service):
     def season(self, request):
 		theCache = memcache.get('seasons')
 		if theCache is None:
-			logging.info("Nothing in cache")
 			t = Team()
 			seasons = []
 			for team in t.getSeasons():
 				season = Season(season=team.season)
 				if season not in seasons:
 					seasons.append(season)
-			if not memcache.add('seasons', seasons, 5):
+			if not memcache.add('seasons', seasons, 3600):
 				logging.error('memcache failed to set')
 			return SeasonResponse(seasons=seasons)
 		else:
-			logging.info("Using memcache")
 			return SeasonResponse(seasons=theCache)
 
 # Map the RPC service and path (/schedule)

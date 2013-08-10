@@ -1,6 +1,7 @@
 from protorpc import messages
 from protorpc import remote
 from protorpc.wsgi import service
+from google.appengine.api import memcache
 from team import Team
 import logging
 
@@ -26,12 +27,22 @@ class CoachService(remote.Service):
 
 	@remote.method(CoachRequest, Coaches)
 	def coach(self, request):
-		t = Team()
-		coaches = []
-		for team in t.getCoaches(request.school, request.season):
-			coach = Coach(team_id=team.teamId, name=team.coach, school=team.school, grade=team.grade)
-			coaches.append(coach)
-		return Coaches(coaches=coaches)
+		if request.school is None:
+			cacheKey = 'AllCoaches'
+		else:
+			cacheKey = request.season + request.school
+		theCache = memcache.get(cacheKey)
+		if theCache is None:
+			t = Team()
+			coaches = []
+			for team in t.getCoaches(request.school, request.season):
+				coach = Coach(team_id=team.teamId, name=team.coach, school=team.school, grade=team.grade)
+				coaches.append(coach)
+			if not memcache.add(cacheKey, coaches, 3600):
+				logging.error('Unable to set cache')
+			return Coaches(coaches=coaches)
+		else:
+			return Coaches(coaches=theCache)
 
 # Map the RPC service and path (/schedule)
 app = service.service_mappings([('/coach.*', CoachService)])
