@@ -4,7 +4,6 @@ function SeasonSelection() {
 		backgroundColor : 'black'
 	});
 	var osname = Ti.Platform.osname;
-	var selectedSeason = '';
 	SchoolSelection = require('schedule/SchoolSelection');
 	
 	
@@ -18,7 +17,9 @@ function SeasonSelection() {
 	});
 	
 	var pckrSeason = Ti.UI.createPicker({
-		top : 1
+		top : 1,
+		useSpinner: true,
+		visibleItems: 10
 	});
 	
 	var btnCancel = Titanium.UI.createButton({
@@ -91,25 +92,19 @@ function SeasonSelection() {
 	    timeout:5000
 	});
 	
-	pckrSeason.setSelectedRow(0,0,true);
 	btnChooseSeason.addEventListener('click', function(e) {
+		var selectedSeason = pckrSeason.getSelectedRow(0).value;
 		Ti.App.Properties.setString('Season', selectedSeason);
 		schoolSelection = new SchoolSelection();
-		self.close();
 		schoolSelection.open();
+		self.close();
 	});
 		
 	pckrSeason.selectionIndicator = true;
-	pckrSeason.addEventListener('change', function(e) {
-	    selectedSeason = e.row.value;
-	});
 
 	xhr.open("POST", url);
 	xhr.setRequestHeader('Content-Type','application/json')
 	xhr.send();
-
-	pckrSeason.setSelectedRow(0,0,false);
-	
 	return self;
 };
 

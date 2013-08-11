@@ -6,7 +6,6 @@ function SchoolSelection() {
 	var osname = Ti.Platform.osname;
 	AddTeamWindow = require('schedule/AddTeamWindow');
 	SeasonSelection = require('schedule/SeasonSelection');
-	var selectedSchool = '';
 	
 	self.layout = 'vertical'
 	var instruction = Ti.UI.createLabel({
@@ -19,7 +18,7 @@ function SchoolSelection() {
 	// var url = "http://localhost:8080/school/SchoolService.school";
 	var data = [];
 	var json;
-	
+
 	var btnChooseSchool = Titanium.UI.createButton({
 		backgroundImage:'/images/approval-48.png',
 		width: '40',
@@ -56,7 +55,9 @@ function SchoolSelection() {
 
 	
 	var pckrSchool = Ti.UI.createPicker({
-		top : 1
+		top : 1,
+		useSpinner: true,
+		visibleItems: 10
 	});
 
 	var xhr = Ti.Network.createHTTPClient({
@@ -76,15 +77,13 @@ function SchoolSelection() {
 		var body = Ti.UI.createView({layout:'vertical', backgroundColor:'black', height: '85%'});
 		body.add(instruction);
 		body.add(pckrSchool);
-		body.add(btnChooseSchool);	
 		self.add(body);
 		pckrSchool.setSelectedRow(0,0,true);
 		var footer = Ti.UI.createView({height:'46', bottom: 0, backgroundColor:'silver'});
-		footer.add(btnChooseSchool);
 		footer.add(btnCancel);
 		footer.add(btnBack);
+		footer.add(btnChooseSchool);
 		self.add(footer);
-
     },
 	onerror: function(e) {
 		Ti.API.error("STATUS: " + this.status);
@@ -96,25 +95,20 @@ function SchoolSelection() {
 	});
 
 	btnChooseSchool.addEventListener('click', function(e) {
+		var selectedSchool = pckrSchool.getSelectedRow(0).value
 		Ti.App.Properties.setString('School', selectedSchool);
 		winAddTeam = new AddTeamWindow();
-		self.close();
 		winAddTeam.open();
+		self.close();
 	});
 		
 	pckrSchool.selectionIndicator = true;
-	pckrSchool.addEventListener('change', function(e) {
-	    selectedSchool = e.row.value;
-	});
-	
 	
 	var season = Ti.App.Properties.getString('Season', '');
 	var params = '{"season": "' +season+ '"}';
 	xhr.open("POST", url);
 	xhr.setRequestHeader('Content-Type','application/json')
 	xhr.send(params);
-	
-	pckrSchool.setSelectedRow(0,0,false);
 	
 	return self;
 };

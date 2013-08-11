@@ -30,7 +30,7 @@ class SeasonService(remote.Service):
 				season = Season(season=team.season)
 				if season not in seasons:
 					seasons.append(season)
-			if not memcache.add('seasons', seasons, 3600):
+			if not memcache.add('seasons', seasons, 86400):
 				logging.error('memcache failed to set')
 			return SeasonResponse(seasons=seasons)
 		else:

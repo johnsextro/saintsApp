@@ -1,6 +1,7 @@
 import logging
 import webapp2
 from google.appengine.api import urlfetch
+from google.appengine.api import memcache
 from lxml import etree
 import team
 import time
@@ -21,8 +22,10 @@ class Load(webapp2.RequestHandler):
 			team_url = stcharlesurl % team_id[1]
 			self.fetch_team_schedule(team_url, team_id)
 		logging.info("Finished loading the schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
-
-
+		if memcache.flush_all():
+			logging.info("Flushed everything from memcache.")
+		else:
+			logging.error("Error trying to flush the memcache.")
 
 	def fetch_team_schedule(self, team_url, team_id):
 		url = urlfetch.fetch(url=team_url, deadline=99)

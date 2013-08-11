@@ -18,7 +18,6 @@ function AddTeamWindow() {
 	// var url = "http://localhost:8080/coach/CoachService.coach";
 	var data = [];
 	var json;
-	var teamId, teamName;
 	var btnAddTeam = Titanium.UI.createButton({
 		backgroundImage:'/images/approval-48.png',
 		width: '40',
@@ -45,7 +44,7 @@ function AddTeamWindow() {
 	});
 	
 	var osname = Ti.Platform.osname;
-	var pckrTeams = Ti.UI.createPicker({visibleItems: 15});
+	var pckrTeams = Ti.UI.createPicker({useSpinner: true, visibleItems: 10});
 	pckrTeams.selectionIndicator = true;
 	var row = 0;
 	
@@ -54,7 +53,7 @@ function AddTeamWindow() {
 		if (Ti.App.Properties.getList('Teams') != null) {
 			savedTeams = Ti.App.Properties.getList('Teams');
 		}
-		savedTeams.push([teamId, teamName]);
+		savedTeams.push([pckrTeams.getSelectedRow(0).value, pckrTeams.getSelectedRow(0).title]);
 		Ti.App.Properties.setList('Teams', savedTeams);
 		self.close();
 	});
@@ -68,12 +67,6 @@ function AddTeamWindow() {
 		schoolSelection.open();
 		self.close();
 	});	
-	
-	pckrTeams.addEventListener('change', function(e) {
-	    teamId = e.row.value;
-	    teamName = e.row.title;
-	});
-	
 	
 	var xhr = Ti.Network.createHTTPClient({
     onload: function() {
@@ -101,6 +94,7 @@ function AddTeamWindow() {
 		footer.add(btnCancel);
 		footer.add(btnBack);
 		self.add(footer);
+		pckrTeams.fireEvent('change');
     },
 	onerror: function(e) {
 		Ti.API.error("STATUS: " + this.status);
@@ -117,7 +111,7 @@ function AddTeamWindow() {
 	xhr.setRequestHeader('Content-Type','application/json')
 	xhr.send(params);
 
-	pckrTeams.setSelectedRow(0,0,false);
+
 	return self;
 };
 
