@@ -33,7 +33,7 @@ class SchoolService(remote.Service):
 				school = School(school=team.school)
 				if school not in schools:
 					schools.append(school)
-			if not memcache.add(cacheKey, schools, 86400):
+			if not memcache.add(cacheKey, schools):
 				logging.error('Unable to set cache')
 			return SchoolResponse(schools=schools)
 		else:

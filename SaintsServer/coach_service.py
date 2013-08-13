@@ -39,7 +39,7 @@ class CoachService(remote.Service):
 			for team in t.getCoaches(request.school, request.season):
 				coach = Coach(team_id=team.teamId, name=team.coach, school=team.school, grade=team.grade)
 				coaches.append(coach)
-			if not memcache.add(cacheKey, coaches, 86400):
+			if not memcache.add(cacheKey, coaches):
 				logging.error('Unable to set cache')
 			return Coaches(coaches=coaches)
 		else:
