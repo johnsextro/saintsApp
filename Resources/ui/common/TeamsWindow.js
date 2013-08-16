@@ -30,13 +30,17 @@ function TeamsWindow(title) {
 
 	var lblInstructions = Titanium.UI.createLabel({
 		color : 'black',
-		text : 'Slide team right to remove',
+		text : 'Long press a team to remove',
 		font : {
 			fontSize : 12
 		},
 		width : 'auto',
 		height : 'auto'
 	});
+	
+	if (osname === 'iphone' || osname === 'ipad') {
+		lblInstructions.setText("Slide team right to remove");	
+	}
 
 	btnAddTeam.addEventListener('click', function(e) {
 		winSelectSeason = new SeasonSelection();
@@ -104,9 +108,12 @@ function TeamsWindow(title) {
 		}
 	});
 
-	tableview.addEventListener('longpress', function(e) {
-		e.source.setEditable(true);
+	tableview.addEventListener('swipe', function(e) {
+		if (osname === 'iphone' || osname === 'ipad') {
+			e.source.setEditable(true);
+		}
 	});
+	
 	
 	tableview.addEventListener('longclick', function(e) {
 		var props = Ti.App.Properties.getList('Teams');
