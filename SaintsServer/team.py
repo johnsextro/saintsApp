@@ -1,5 +1,6 @@
 from google.appengine.ext import db
 import logging
+import string
 
 package = 'SaintsSchedule'
 
@@ -23,7 +24,7 @@ class Team(db.Model):
 		q.filter("teamId =", str(teamId))
 		if q.count() > 0:
 			team = q.get()
-			games = str(team.schedule)
+			games = filter(lambda x: x in string.printable, team.schedule)
 		return games
 
 

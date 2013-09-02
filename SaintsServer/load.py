@@ -16,12 +16,18 @@ class Load(webapp2.RequestHandler):
 	def get(self):
 		start_time = time.time()
 		logging.info("Beginning data load")
-		teamIds = self.get_team_ids()
-		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999"
+		teamIds = self.get_soccer_team_ids()
+		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=37"
 		for team_id in teamIds:
 			team_url = stcharlesurl % team_id[1]
 			self.fetch_team_schedule(team_url, team_id)
-		logging.info("Finished loading the schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
+		logging.info("Finished loading the soccer schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
+		teamIds = self.get_volleyball_team_ids()
+		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=36"
+		for team_id in teamIds:
+			team_url = stcharlesurl % team_id[1]
+			self.fetch_team_schedule(team_url, team_id)
+		logging.info("Finished loading the volleyball schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
 		if memcache.flush_all():
 			logging.info("Flushed everything from memcache.")
 		else:
@@ -52,9 +58,9 @@ class Load(webapp2.RequestHandler):
 		return season
 
 
-	def get_team_ids(self):
+	def get_soccer_team_ids(self):
 		teams = []
-		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?team=0", deadline=99)
+		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?month=999&year=2013&pfv=n&location=-1&leagueid=1&season=37&conference=-1&division=-1&team=-1", deadline=99)
 		if url.status_code == 200:
 			tree = etree.HTML(url.content)
 			elements = tree.xpath('//td[@class="smalltext"][7]/select[@class="smalltext"]//option')
@@ -64,6 +70,17 @@ class Load(webapp2.RequestHandler):
 				teams.append([team_name.text.strip(),value[value.find("&team=")+6:]])
 		return teams
 
+	def get_volleyball_team_ids(self):
+		teams = []
+		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?month=999&year=2013&pfv=n&location=-1&leagueid=1&season=36&conference=-1&division=-1&team=-1", deadline=99)
+		if url.status_code == 200:
+			tree = etree.HTML(url.content)
+			elements = tree.xpath('//td[@class="smalltext"][7]/select[@class="smalltext"]//option')
+			for team_name in elements:
+				attribs = team_name.attrib
+				value = attribs["value"]
+				teams.append([team_name.text.strip(),value[value.find("&team=")+6:]])
+		return teams
 
 	def save_team_games(self, games, team_id, coach, season, grade):
 		# todo: Need to account for teams that already exist in the database
@@ -80,7 +97,7 @@ class Load(webapp2.RequestHandler):
 			t.school = school.strip()
 		t.year = 2013
 		t.schedule = self.jsonify_games(games)
-		if t.school is not None:
+		if t.school is not None and t.grade is not None:
 			t.put()
 
 
@@ -88,10 +105,15 @@ class Load(webapp2.RequestHandler):
 		gamelist = []
 		for rowindex in range(len(games)):
 			if len(games[rowindex])>3 and games[rowindex][1].text is not None and games[rowindex][2].text is not None:
-				gameId = hash(games[rowindex][self.GAME_DATE].text + games[rowindex][self.GAME_TIME].text + games[rowindex][self.HOME_TEAM].text + games[rowindex][self.AWAY_TEAM].text + games[rowindex][self.LOCATION][0].text)
-				game = '{"game_date": "%s", "time": "%s", "home": "%s", "away": "%s", "location": "%s", "id": "%s"}' % (games[rowindex][self.GAME_DATE].text, games[rowindex][self.GAME_TIME].text, games[rowindex][self.HOME_TEAM].text, games[rowindex][self.AWAY_TEAM].text, games[rowindex][self.LOCATION][0].text, gameId)
-				# {"games": [{"game_date": "4/1/2013", "time": "1:00 PM", "home": "St. J & A", "away": "ICD", location": "St. Joes"}]}
-				gamelist.append(game)
+				try:
+					gameId = hash(games[rowindex][self.GAME_DATE].text + games[rowindex][self.GAME_TIME].text + games[rowindex][self.HOME_TEAM].text + games[rowindex][self.AWAY_TEAM].text + games[rowindex][self.LOCATION][0].text)
+					game = '{"game_date": "%s", "time": "%s", "home": "%s", "away": "%s", "location": "%s", "id": "%s"}' % (games[rowindex][self.GAME_DATE].text, games[rowindex][self.GAME_TIME].text, games[rowindex][self.HOME_TEAM].text, games[rowindex][self.AWAY_TEAM].text, games[rowindex][self.LOCATION][0].text, gameId)
+					# {"games": [{"game_date": "4/1/2013", "time": "1:00 PM", "home": "St. J & A", "away": "ICD", location": "St. Joes"}]}
+					gamelist.append(game)
+				except IndexError, e:
+					logging.info(e)
+					logging.info(games[rowindex])
+					continue
 		return '{"games": [%s]}' % ", ".join(gamelist)
 
 app = webapp2.WSGIApplication([('/crontask/scrape', Load)],debug=True)
