@@ -60,7 +60,7 @@ class Load(webapp2.RequestHandler):
 
 	def get_soccer_team_ids(self):
 		teams = []
-		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?month=999&year=2013&pfv=n&location=-1&leagueid=1&season=37&conference=-1&division=-1&team=-1", deadline=99)
+		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?month=999&year=2013&pfv=n&location=-1&leagueid=1&season=39&conference=-1&division=-1&team=-1", deadline=99)
 		if url.status_code == 200:
 			tree = etree.HTML(url.content)
 			elements = tree.xpath('//td[@class="smalltext"][7]/select[@class="smalltext"]//option')
