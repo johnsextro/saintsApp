@@ -17,7 +17,7 @@ class Load(webapp2.RequestHandler):
 		start_time = time.time()
 		logging.info("Beginning data load")
 		teamIds = self.get_soccer_team_ids()
-		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=37"
+		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=39"
 		for team_id in teamIds:
 			team_url = stcharlesurl % team_id[1]
 			self.fetch_team_schedule(team_url, team_id)
