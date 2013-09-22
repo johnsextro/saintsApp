@@ -18,7 +18,7 @@ function TeamsWindow(title) {
 		width : '40',
 		height : '40',
 		right : '10',
-		top : '3'
+		bottom : '3'
 	});
 
 	var btnMap = Titanium.UI.createButton({
@@ -26,7 +26,7 @@ function TeamsWindow(title) {
 		width : '40',
 		height : '40',
 		left : '10',
-		top : '3'
+		bottom : '3'
 	});
 
 	var lblInstructions = Titanium.UI.createLabel({
@@ -40,7 +40,7 @@ function TeamsWindow(title) {
 	});
 	
 	if (osname === 'iphone' || osname === 'ipad') {
-		lblInstructions.setText("Slide team right to remove");	
+		lblInstructions.setText("Slide team LEFT to remove");	
 	}
 
 	btnAddTeam.addEventListener('click', function(e) {
