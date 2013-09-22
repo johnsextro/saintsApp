@@ -7,7 +7,7 @@ function SeasonSelection() {
 	SchoolSelection = require('schedule/SchoolSelection');
 	
 	
-	self.layout = 'vertical'
+	self.layout = 'vertical';
 	var btnChooseSeason = Titanium.UI.createButton({
 		backgroundImage:'/images/approval-48.png',
 		width: '40',

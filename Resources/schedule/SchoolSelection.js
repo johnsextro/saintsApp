@@ -7,7 +7,7 @@ function SchoolSelection() {
 	AddTeamWindow = require('schedule/AddTeamWindow');
 	SeasonSelection = require('schedule/SeasonSelection');
 	
-	self.layout = 'vertical'
+	self.layout = 'vertical';
 	var instruction = Ti.UI.createLabel({
 	  color: 'white',
 	  text: 'Choose a School',

@@ -3,9 +3,9 @@ function TeamsWindow(title) {
 		title : title,
 		backgroundColor : 'white'
 	});
-	var osname = Ti.Platform.osname
+	var osname = Ti.Platform.osname;
 
-	self.layout = 'vertical'
+	self.layout = 'vertical';
 	SeasonSelection = require('schedule/SeasonSelection');
 
 	var header = Ti.UI.createView({
