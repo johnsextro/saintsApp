@@ -7,7 +7,8 @@ function TeamsWindow(title) {
 
 	self.layout = 'vertical';
 	SeasonSelection = require('schedule/SeasonSelection');
-
+	GameMap = require('schedule/GameMap');
+	
 	var header = Ti.UI.createView({
 		height : '50',
 		backgroundColor : 'silver'
@@ -20,8 +21,8 @@ function TeamsWindow(title) {
 		top : '3'
 	});
 
-	var btnInfo = Titanium.UI.createButton({
-		backgroundImage : '/images/info-3-48.png',
+	var btnMap = Titanium.UI.createButton({
+		backgroundImage : '/images/nav-48.png',
 		width : '40',
 		height : '40',
 		left : '10',
@@ -46,9 +47,14 @@ function TeamsWindow(title) {
 		winSelectSeason = new SeasonSelection();
 		winSelectSeason.open();
 	});
+	
+	btnMap.addEventListener('click', function(e) {
+		winMapView = new GameMap();
+		winMapView.open();	
+	});
 
 	header.add(btnAddTeam);
-	header.add(btnInfo);
+	header.add(btnMap);
 	header.add(lblInstructions);
 	self.add(header);
 
