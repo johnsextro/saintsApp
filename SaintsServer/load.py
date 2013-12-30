@@ -69,7 +69,7 @@ class Load(webapp2.RequestHandler):
 		if url.status_code == 200:
 			tree = etree.HTML(url.content)
 			# elements = tree.xpath('//*[@id="maincontent"]/table[2]/tbody/tr/td[2]/div[3]/table/tbody/tr[3]/td/table/tbody/tr/td[7]//option')
-			elements = tree.xpath('//td[@class="smalltext"][13]/select[@class="smalltext"]//option')
+			elements = tree.xpath('//td[@class="smalltext"][7]/select[@class="smalltext"]//option')
 			logging.info(elements)
 			for team_name in elements:
 				attribs = team_name.attrib
