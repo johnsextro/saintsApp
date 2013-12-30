@@ -16,18 +16,24 @@ class Load(webapp2.RequestHandler):
 	def get(self):
 		start_time = time.time()
 		logging.info("Beginning data load")
-		teamIds = self.get_soccer_team_ids()
-		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=39"
+		teamIds = self.get_basketball_team_ids()
+		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=40"
 		for team_id in teamIds:
 			team_url = stcharlesurl % team_id[1]
 			self.fetch_team_schedule(team_url, team_id)
-		logging.info("Finished loading the soccer schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
-		teamIds = self.get_volleyball_team_ids()
-		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=36"
-		for team_id in teamIds:
-			team_url = stcharlesurl % team_id[1]
-			self.fetch_team_schedule(team_url, team_id)
-		logging.info("Finished loading the volleyball schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
+		logging.info("Finished loading the basketball schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
+		# teamIds = self.get_soccer_team_ids()
+		# stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=39"
+		# for team_id in teamIds:
+		# 	team_url = stcharlesurl % team_id[1]
+		# 	self.fetch_team_schedule(team_url, team_id)
+		# logging.info("Finished loading the soccer schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
+		# teamIds = self.get_volleyball_team_ids()
+		# stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=36"
+		# for team_id in teamIds:
+		# 	team_url = stcharlesurl % team_id[1]
+		# 	self.fetch_team_schedule(team_url, team_id)
+		# logging.info("Finished loading the volleyball schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
 		if memcache.flush_all():
 			logging.info("Flushed everything from memcache.")
 		else:
@@ -57,6 +63,22 @@ class Load(webapp2.RequestHandler):
 			season = seasonElement[0].text.strip()
 		return season
 
+	def get_basketball_team_ids(self):
+		teams = []
+		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?month=999&year=999&pfv=n&location=-1&leagueid=1&season=40&conference=-1&division=-1&team=-1", deadline=99)
+		if url.status_code == 200:
+			tree = etree.HTML(url.content)
+			# elements = tree.xpath('//*[@id="maincontent"]/table[2]/tbody/tr/td[2]/div[3]/table/tbody/tr[3]/td/table/tbody/tr/td[7]//option')
+			elements = tree.xpath('//td[@class="smalltext"][13]/select[@class="smalltext"]//option')
+			logging.info(elements)
+			for team_name in elements:
+				attribs = team_name.attrib
+				logging.info(attribs)
+				value = attribs["value"]
+				logging.info(value)
+				logging.info([team_name.text.strip(),value[value.find("&team=")+6:]])
+				teams.append([team_name.text.strip(),value[value.find("&team=")+6:]])
+		return teams
 
 	def get_soccer_team_ids(self):
 		teams = []
