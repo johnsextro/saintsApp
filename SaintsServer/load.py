@@ -16,12 +16,19 @@ class Load(webapp2.RequestHandler):
 	def get(self):
 		start_time = time.time()
 		logging.info("Beginning data load")
-		teamIds = self.get_basketball_team_ids()
-		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=40"
+		teamIds = self.get_baseball_softball_team_ids()
+		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=41"
 		for team_id in teamIds:
 			team_url = stcharlesurl % team_id[1]
 			self.fetch_team_schedule(team_url, team_id)
-		logging.info("Finished loading the basketball schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
+		logging.info("Finished loading the baseball/softball schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
+		
+		# teamIds = self.get_basketball_team_ids()
+		# stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=40"
+		# for team_id in teamIds:
+		# 	team_url = stcharlesurl % team_id[1]
+		# 	self.fetch_team_schedule(team_url, team_id)
+		# logging.info("Finished loading the basketball schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
 		# teamIds = self.get_soccer_team_ids()
 		# stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=39"
 		# for team_id in teamIds:
@@ -62,6 +69,18 @@ class Load(webapp2.RequestHandler):
 		if (len(seasonElement) == 1):
 			season = seasonElement[0].text.strip()
 		return season
+
+	def get_baseball_softball_team_ids(self):
+		teams = []
+		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?month=999&year=2014&pfv=n&location=-1&leagueid=1&season=41&conference=-1&division=-1&team=-1", deadline=99)
+		if url.status_code == 200:
+			tree = etree.HTML(url.content)
+			elements = tree.xpath('//td[@class="smalltext"][7]/select[@class="smalltext"]//option')
+			for team_name in elements:
+				attribs = team_name.attrib
+				value = attribs["value"]
+				teams.append([team_name.text.strip(),value[value.find("&team=")+6:]])
+		return teams
 
 	def get_basketball_team_ids(self):
 		teams = []

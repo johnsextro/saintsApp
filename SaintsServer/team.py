@@ -43,6 +43,7 @@ class Team(db.Model):
 		logging.info("Getting seasons from DB")
 		q = db.Query(Team, projection=('season'), distinct=True)
 		q = Team.all()
+		q.order("-season")
 		return q.run()
 			
 
