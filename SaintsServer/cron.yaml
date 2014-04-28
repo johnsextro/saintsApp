@@ -1,4 +1,4 @@
 cron:
 - description: Nightly cron job to scrape the cyc website for schedule updates
   url: /crontask/scrape
-  schedule: every day 08:35
+  schedule: every day 08:45
