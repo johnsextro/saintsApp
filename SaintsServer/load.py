@@ -7,11 +7,13 @@ import team
 import time
 
 class Load(webapp2.RequestHandler):
+	GAME_ID = 0
 	GAME_DATE = 1
 	GAME_TIME = 2
 	LOCATION = 3
 	HOME_TEAM = 4
 	AWAY_TEAM = 5
+	SCORE = 6
 
 	def get(self):
 		start_time = time.time()
@@ -147,8 +149,7 @@ class Load(webapp2.RequestHandler):
 		for rowindex in range(len(games)):
 			if len(games[rowindex])>3 and games[rowindex][1].text is not None and games[rowindex][2].text is not None:
 				try:
-					gameId = hash(games[rowindex][self.GAME_DATE].text + games[rowindex][self.GAME_TIME].text + games[rowindex][self.HOME_TEAM].text + games[rowindex][self.AWAY_TEAM].text + games[rowindex][self.LOCATION][0].text)
-					game = '{"game_date": "%s", "time": "%s", "home": "%s", "away": "%s", "location": "%s", "id": "%s"}' % (games[rowindex][self.GAME_DATE].text, games[rowindex][self.GAME_TIME].text, games[rowindex][self.HOME_TEAM].text, games[rowindex][self.AWAY_TEAM].text, games[rowindex][self.LOCATION][0].text, gameId)
+					game = '{"game_date": "%s", "time": "%s", "home": "%s", "away": "%s", "location": "%s", "id": "%s", "score": "%s"}' % (games[rowindex][self.GAME_DATE].text, games[rowindex][self.GAME_TIME].text, games[rowindex][self.HOME_TEAM].text, games[rowindex][self.AWAY_TEAM].text, games[rowindex][self.LOCATION][0].text, games[rowindex][self.GAME_ID].text, games[rowindex][self.SCORE].text)
 					# {"games": [{"game_date": "4/1/2013", "time": "1:00 PM", "home": "St. J & A", "away": "ICD", location": "St. Joes"}]}
 					gamelist.append(game)
 				except IndexError, e:
