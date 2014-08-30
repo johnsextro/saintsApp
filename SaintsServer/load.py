@@ -18,12 +18,12 @@ class Load(webapp2.RequestHandler):
 	def get(self):
 		start_time = time.time()
 		logging.info("Beginning data load")
-		teamIds = self.get_baseball_softball_team_ids()
-		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=41"
+		teamIds = self.get_soccer_team_ids()
+		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=42"
 		for team_id in teamIds:
 			team_url = stcharlesurl % team_id[1]
 			self.fetch_team_schedule(team_url, team_id)
-		logging.info("Finished loading the baseball/softball schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
+		logging.info("Finished loading the soccer schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
 		
 		# teamIds = self.get_basketball_team_ids()
 		# stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=40"
@@ -103,7 +103,7 @@ class Load(webapp2.RequestHandler):
 
 	def get_soccer_team_ids(self):
 		teams = []
-		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?month=999&year=2013&pfv=n&location=-1&leagueid=1&season=39&conference=-1&division=-1&team=-1", deadline=99)
+		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?month=999&year=2014&pfv=n&location=-1&leagueid=1&season=42&conference=-1&division=-1&team=-1", deadline=99)
 		if url.status_code == 200:
 			tree = etree.HTML(url.content)
 			elements = tree.xpath('//td[@class="smalltext"][7]/select[@class="smalltext"]//option')
