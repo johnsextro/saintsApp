@@ -14,17 +14,17 @@ class Load(webapp2.RequestHandler):
 	HOME_TEAM = 4
 	AWAY_TEAM = 5
 	SCORE = 6
-
+	schoolNames = ["2Rivers", "A.S.H.", "AS", "ASH", "All Saints", "Assumption", "Borromeo", "HS", "HT", "Holy Rosary", "Holy Spirit", "Holy Trinity", "ICD", "ICOM", "IHM", "J and A", "JA", "JandA", "LWCS", "Living Word", "S.H. Troy", "SC", "SESR", "SESR Carrie Mejia", "SH T", "SH Troy", "SJ", "SJ Cott", "Sacred Heart Troy", "St Cletus", "St Joe", "St Joe Cottleville", "St Josephville", "St Patrick", "St Paul", "St Peter", "St Peters", "St Theodore", "St. Cletus", "St. Ignatius", "St. Joe", "St. Joe Cottleville", "St. Joe Josephsville", "St. Patrick", "St. Paul", "St. Peter", "St. Rose", "St. Sabina", "St. Theo", "St. Theodore", "St.Joe Cottleville", "St.Patrick", "Sts J and A", "Sts JandA", "Sts. J and A", "Sts. J andA", "Sts. JandA"]
+	
 	def get(self):
 		start_time = time.time()
 		logging.info("Beginning data load")
 		teamIds = self.get_soccer_team_ids()
-		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=42"
+		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=43"
 		for team_id in teamIds:
 			team_url = stcharlesurl % team_id[1]
 			self.fetch_team_schedule(team_url, team_id)
 		logging.info("Finished loading the soccer schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
-		
 		# teamIds = self.get_basketball_team_ids()
 		# stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=40"
 		# for team_id in teamIds:
@@ -56,7 +56,6 @@ class Load(webapp2.RequestHandler):
 			elements = tree.xpath('//table[@class="list"]//tr')
 			# logging.info(str(season[0].text.strip())
 			self.save_team_games(elements, team_id[1], team_id[0], self.get_season(tree), self.get_grade(tree))
-
 
 	def get_grade(self, tree):
 		grade = ''
@@ -103,7 +102,7 @@ class Load(webapp2.RequestHandler):
 
 	def get_soccer_team_ids(self):
 		teams = []
-		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?month=999&year=2014&pfv=n&location=-1&leagueid=1&season=42&conference=-1&division=-1&team=-1", deadline=99)
+		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?month=999&year=2014&pfv=n&location=-1&leagueid=1&season=43&conference=-1&division=-1&team=-1", deadline=99)
 		if url.status_code == 200:
 			tree = etree.HTML(url.content)
 			elements = tree.xpath('//td[@class="smalltext"][7]/select[@class="smalltext"]//option')
@@ -129,20 +128,24 @@ class Load(webapp2.RequestHandler):
 		# todo: Need to account for teams that already exist in the database
 		t = team.Team(key_name=str(team_id))
 		t.teamId = str(team_id)
-		t.coach = coach[coach.find('-')+1:]
-		t.coach = t.coach.strip()
-		t.season = season
-		t.grade = grade
-		endIndex = 1
-		if (coach.find("-") > 1):
-			endIndex = coach.find("-")
-			school = coach[:endIndex]
-			t.school = school.strip()
-		t.year = 2013
-		t.schedule = self.jsonify_games(games)
-		if t.school is not None and t.grade is not None:
-			t.put()
-
+		for val in self.schoolNames:
+			if coach.find(val) > -1:
+				t.school = val
+				coach = coach[len(val)+1:]
+				coach = coach.strip()
+				if (coach.find("-") > -1):
+					coach = coach[coach.find("-")+1:]
+				t.coach = coach
+				logging.info("School = " + t.school)
+				logging.info("Coach = " + t.coach)
+				t.season = season
+				t.grade = grade
+				t.year = 2014
+				logging.info(self.jsonify_games(games))
+				t.schedule = self.jsonify_games(games)
+				if t.school is not None and t.grade is not None:
+					t.put()
+				break
 
 	def jsonify_games(self, games):
 		gamelist = []
