@@ -21,6 +21,9 @@ handlers:
 - url: /school/.*
   script: school_service.app
 
+- url: /games/.*
+  script: game_service.app
+
 - url: /crontask/scrape
   script: load.app
 

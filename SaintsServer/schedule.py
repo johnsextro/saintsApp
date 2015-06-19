@@ -6,7 +6,6 @@ import logging
 
 package = 'SaintsSchedule'
 
-# Create the request string containing the user's name
 class ScheduleRequest(messages.Message):
     team_id = messages.StringField(1, required=True)
 
