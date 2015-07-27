@@ -24,6 +24,9 @@ handlers:
 - url: /games/.*
   script: game_service.app
 
+- url: /multigames/.*
+  script: game_multi_team_service.app
+
 - url: /crontask/scrape
   script: load.app
 
