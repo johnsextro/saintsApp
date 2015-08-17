@@ -5,6 +5,8 @@ from google.appengine.api import memcache
 from lxml import etree
 import team
 import time
+from season_service import Season
+from team import Team
 
 class Load(webapp2.RequestHandler):
 	GAME_ID = 0
@@ -25,12 +27,12 @@ class Load(webapp2.RequestHandler):
 		# 	team_url = stcharlesurl % team_id[1]
 		# 	self.fetch_team_schedule(team_url, team_id)
 		# logging.info("Finished loading the soccer schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
-		teamIds = self.get_baseball_softball_team_ids()
-		stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=47"
-		for team_id in teamIds:
-			team_url = stcharlesurl % team_id[1]
-			self.fetch_team_schedule(team_url, team_id)
-		logging.info("Finished loading the softball/baseball schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
+		# teamIds = self.get_baseball_softball_team_ids()
+		# stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=47"
+		# for team_id in teamIds:
+		# 	team_url = stcharlesurl % team_id[1]
+		# 	self.fetch_team_schedule(team_url, team_id)
+		# logging.info("Finished loading the softball/baseball schedule data. Elapsed time (in mins): " + str((time.time() - start_time)/60))
 		# teamIds = self.get_soccer_team_ids()
 		# stcharlesurl = "http://www.cycstcharles.com/schedule.php?team=%s&pfv=y&sort=date&month=999&year=999&season=39"
 		# for team_id in teamIds:
@@ -47,6 +49,15 @@ class Load(webapp2.RequestHandler):
 			logging.info("Flushed everything from memcache.")
 		else:
 			logging.error("Error trying to flush the memcache.")
+
+		t = Team()
+		seasons = []
+		for team in t.getSeasons():
+			season = Season(season=team.season)
+			if season not in seasons:
+				seasons.append(season)
+		if not memcache.add('seasons', seasons):
+			logging.error('memcache failed to set')
 
 	def fetch_team_schedule(self, team_url, team_id):
 		url = urlfetch.fetch(url=team_url, deadline=99)
@@ -102,7 +113,7 @@ class Load(webapp2.RequestHandler):
 
 	def get_soccer_team_ids(self):
 		teams = []
-		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?month=999&year=2014&pfv=n&location=-1&leagueid=1&season=43&conference=-1&division=-1&team=-1", deadline=99)
+		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?month=999&year=2015&pfv=n&location=-1&leagueid=1&season=43&conference=-1&division=-1&team=-1", deadline=99)
 		if url.status_code == 200:
 			tree = etree.HTML(url.content)
 			elements = tree.xpath('//td[@class="smalltext"][7]/select[@class="smalltext"]//option')
@@ -114,7 +125,7 @@ class Load(webapp2.RequestHandler):
 
 	def get_volleyball_team_ids(self):
 		teams = []
-		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?month=999&year=2014&pfv=n&location=-1&leagueid=1&season=44&conference=-1&division=-1&team=-1", deadline=99)
+		url = urlfetch.fetch(url="http://www.cycstcharles.com/schedule.php?month=999&year=2015&pfv=n&location=-1&leagueid=1&season=44&conference=-1&division=-1&team=-1", deadline=99)
 		if url.status_code == 200:
 			tree = etree.HTML(url.content)
 			elements = tree.xpath('//td[@class="smalltext"][7]/select[@class="smalltext"]//option')
